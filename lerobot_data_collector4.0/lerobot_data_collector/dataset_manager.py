@@ -7,8 +7,9 @@ import importlib
 import re
 import time
 import subprocess
+import shutil
 from pathlib import Path
-from typing import List, Dict, Optional, Any, Tuple, Callable
+from typing import List, Dict, Optional, Any, Tuple, Callable, Union
 from datetime import datetime
 import numpy as np
 import pandas as pd
@@ -1071,6 +1072,34 @@ def _finalize_copasi_names_with_config(logistics_dir: Path, main_scene_dir: Path
     print(f"  {action_dir.name}")
 
 
+def _ensure_writable_output_root(preferred: Optional[str]) -> Optional[Path]:
+    """优先使用配置的 output_root；不可写时回退到 ~/hdf5_output，仍保持 Logistics 上传结构。"""
+    fallback = Path.home() / "hdf5_output"
+    candidates: List[Path] = []
+    if preferred:
+        try:
+            candidates.append(Path(str(preferred)).expanduser())
+        except Exception:
+            pass
+    candidates.append(fallback)
+    seen = set()
+    for path in candidates:
+        key = str(path)
+        if key in seen:
+            continue
+        seen.add(key)
+        try:
+            path.mkdir(parents=True, exist_ok=True)
+            probe = path / ".sric_write_probe"
+            with probe.open("w", encoding="utf-8") as f:
+                f.write("ok")
+            probe.unlink()
+            return path
+        except Exception as e:
+            print(f"⚠️  输出目录不可写: {path} ({e})")
+    return None
+
+
 def _load_conversion_config(config_file: Optional[str] = None) -> Dict[str, Any]:
     """
     从JSON配置文件加载转换参数
@@ -1512,4 +1541,456 @@ def convert_parquet_to_hdf5(
         import traceback
         traceback.print_exc()
         return False
+
+
+_UNITREE_PART_ORDER = ("left_arm", "right_arm", "left_ee", "right_ee", "body")
+_UNITREE_STATE_FIELDS = ("qpos", "qvel", "torque")
+_UNITREE_IMAGE_EXTS = (".jpg", ".jpeg", ".png", ".bmp")
+
+
+def is_unitree_episode_dir(path: Union[str, Path]) -> bool:
+    """识别 Unitree G1 等 episode 目录：data.json + colors/ 图像。"""
+    episode_dir = Path(path)
+    if not episode_dir.is_dir():
+        return False
+    if not (episode_dir / "data.json").is_file():
+        return False
+    colors_dir = episode_dir / "colors"
+    if not colors_dir.is_dir():
+        return False
+    try:
+        for name in os.listdir(colors_dir):
+            if name.lower().endswith(_UNITREE_IMAGE_EXTS):
+                return True
+    except Exception:
+        return False
+    return False
+
+
+def count_unitree_color_files(path: Union[str, Path]) -> int:
+    """统计 episode colors/ 下的图像数量。"""
+    colors_dir = Path(path) / "colors"
+    if not colors_dir.is_dir():
+        return 0
+    try:
+        return sum(1 for name in os.listdir(colors_dir) if name.lower().endswith(_UNITREE_IMAGE_EXTS))
+    except Exception:
+        return 0
+
+
+def _unitree_stack_part_field(frames: List[Dict[str, Any]], group_key: str, part: str, field: str) -> Optional[np.ndarray]:
+    """将 data.json 中 states/actions 某一部位的某一字段堆成 (N, D)。"""
+    vectors: List[np.ndarray] = []
+    max_len = 0
+    for frame in frames:
+        group = frame.get(group_key) if isinstance(frame, dict) else None
+        part_data = group.get(part) if isinstance(group, dict) else None
+        values = part_data.get(field) if isinstance(part_data, dict) else None
+        if isinstance(values, list) and values:
+            arr = np.asarray(values, dtype=np.float32).reshape(-1)
+        else:
+            arr = np.zeros((0,), dtype=np.float32)
+        max_len = max(max_len, int(arr.size))
+        vectors.append(arr)
+    if max_len <= 0:
+        return None
+    stacked = np.zeros((len(vectors), max_len), dtype=np.float32)
+    for i, arr in enumerate(vectors):
+        if arr.size:
+            stacked[i, : arr.size] = arr
+    return stacked
+
+
+def _unitree_concat_parts(frames: List[Dict[str, Any]], group_key: str, field: str) -> Optional[np.ndarray]:
+    parts = [
+        _unitree_stack_part_field(frames, group_key, part, field)
+        for part in _UNITREE_PART_ORDER
+    ]
+    present = [p for p in parts if p is not None]
+    if not present:
+        return None
+    return np.concatenate(present, axis=1)
+
+
+def _unitree_resolve_color_path(episode_dir: Path, rel: Any, frame_idx: int, cam_key: str) -> Optional[Path]:
+    candidates: List[Path] = []
+    if isinstance(rel, str) and rel.strip():
+        candidates.append(episode_dir / rel)
+        candidates.append(episode_dir / "colors" / Path(rel).name)
+    candidates.append(episode_dir / "colors" / f"{int(frame_idx):06d}_{cam_key}.jpg")
+    candidates.append(episode_dir / "colors" / f"{int(frame_idx):06d}_{cam_key}.jpeg")
+    candidates.append(episode_dir / "colors" / f"{int(frame_idx):06d}_{cam_key}.png")
+    for cand in candidates:
+        if cand.is_file():
+            return cand
+    return None
+
+
+def _write_unitree_episode_hdf5(
+    episode_dir: Path,
+    hdf5_path: Path,
+    progress_callback: Optional[Callable[[int, int, str], None]] = None,
+    should_cancel: Optional[Callable[[], bool]] = None,
+) -> Tuple[bool, int, Dict[str, List[Path]]]:
+    """把 episode 的 colors JPEG 和关节写入 proprio_stats HDF5。"""
+    json_path = episode_dir / "data.json"
+    with json_path.open("r", encoding="utf-8") as f:
+        payload = json.load(f)
+    frames = payload.get("data")
+    if not isinstance(frames, list) or not frames:
+        print(f"❌ Unitree episode 无有效帧: {json_path}")
+        return False, 0, {}
+
+    info = payload.get("info") if isinstance(payload.get("info"), dict) else {}
+    image_info = info.get("image") if isinstance(info.get("image"), dict) else {}
+    fps = float(image_info.get("fps") or 30)
+    width = int(image_info.get("width") or 0)
+    height = int(image_info.get("height") or 0)
+
+    def _progress(current: int, total: int, msg: str) -> None:
+        if progress_callback is None:
+            return
+        try:
+            progress_callback(int(current), int(total), str(msg))
+        except Exception:
+            pass
+
+    def _cancelled() -> bool:
+        if should_cancel is None:
+            return False
+        try:
+            return bool(should_cancel())
+        except Exception:
+            return False
+
+    n_frames = len(frames)
+    camera_keys: List[str] = []
+    for frame in frames:
+        colors = frame.get("colors") if isinstance(frame, dict) else None
+        if isinstance(colors, dict):
+            for key in colors.keys():
+                if key not in camera_keys:
+                    camera_keys.append(str(key))
+    if not camera_keys:
+        camera_keys = ["color_0"]
+
+    copied_paths: Dict[str, List[Path]] = {cam: [] for cam in camera_keys}
+
+    hdf5_path.parent.mkdir(parents=True, exist_ok=True)
+    vlen_u8 = h5py.vlen_dtype(np.dtype("uint8"))
+
+    with h5py.File(hdf5_path, "w") as h5f:
+        h5f.attrs["source"] = "unitree_episode"
+        h5f.attrs["episode_name"] = episode_dir.name
+        h5f.attrs["num_frames"] = int(n_frames)
+        h5f.attrs["fps"] = fps
+        if width:
+            h5f.attrs["image_width"] = width
+        if height:
+            h5f.attrs["image_height"] = height
+        for key in ("version", "date", "author"):
+            val = info.get(key)
+            if val is not None:
+                h5f.attrs[key] = str(val)
+        try:
+            h5f.attrs["unitree_info"] = json.dumps(info, ensure_ascii=False)
+        except Exception:
+            pass
+
+        observations = h5f.create_group("observations")
+        images_grp = observations.create_group("images")
+        action_grp = h5f.create_group("action")
+
+        indexes = []
+        for frame in frames:
+            idx_val = frame.get("idx") if isinstance(frame, dict) else None
+            try:
+                indexes.append(int(idx_val))
+            except Exception:
+                indexes.append(len(indexes))
+        h5f.create_dataset("index", data=np.asarray(indexes, dtype=np.int64))
+
+        for group_key, out_grp in (("states", observations), ("actions", action_grp)):
+            for field in _UNITREE_STATE_FIELDS:
+                concatenated = _unitree_concat_parts(frames, group_key, field)
+                if concatenated is not None:
+                    out_grp.create_dataset(field, data=concatenated)
+                for part in _UNITREE_PART_ORDER:
+                    stacked = _unitree_stack_part_field(frames, group_key, part, field)
+                    if stacked is None:
+                        continue
+                    part_grp = out_grp.require_group(part)
+                    part_grp.create_dataset(field, data=stacked)
+
+        joint_names = info.get("joint_names") if isinstance(info.get("joint_names"), dict) else {}
+        if joint_names:
+            names_grp = h5f.create_group("joint_names")
+            str_dt = h5py.string_dtype(encoding="utf-8")
+            for part, names in joint_names.items():
+                if isinstance(names, list) and names:
+                    names_grp.create_dataset(
+                        str(part),
+                        data=np.array([str(x) for x in names], dtype=object),
+                        dtype=str_dt,
+                    )
+
+        for cam in camera_keys:
+            images_grp.create_dataset(cam, shape=(n_frames,), dtype=vlen_u8)
+
+        for i, frame in enumerate(frames):
+            if _cancelled():
+                print("⚠️  用户取消转换")
+                return False, 0, {}
+            if i % 10 == 0 or i + 1 == n_frames:
+                _progress(i, n_frames, f"写入 colors JPEG（{i + 1}/{n_frames}）")
+            colors = frame.get("colors") if isinstance(frame, dict) else None
+            if not isinstance(colors, dict):
+                colors = {}
+            for cam in camera_keys:
+                rel = colors.get(cam)
+                img_path = _unitree_resolve_color_path(episode_dir, rel, indexes[i] if i < len(indexes) else i, cam)
+                if img_path is None:
+                    images_grp[cam][i] = np.zeros((0,), dtype=np.uint8)
+                    continue
+                images_grp[cam][i] = np.fromfile(img_path, dtype=np.uint8)
+                copied_paths[cam].append(img_path)
+
+    print(f"✅ Unitree colors 已写入 HDF5: {hdf5_path}（{n_frames} 帧）")
+    return True, n_frames, {cam: paths for cam, paths in copied_paths.items() if paths}
+
+
+def convert_unitree_episode_to_hdf5(
+    repo_id: str,
+    dataset_root: Optional[str] = None,
+    config_file: Optional[str] = None,
+    progress_callback: Optional[Callable[[int, int, str], None]] = None,
+    should_cancel: Optional[Callable[[], bool]] = None,
+    export_videos: Optional[bool] = None,
+    export_depth_videos: Optional[bool] = None,
+    verbose: bool = False,
+    output_root_override: Optional[str] = None,
+    timestamped_logistics_dir: bool = True,
+) -> bool:
+    """
+    将 Unitree episode（data.json + colors/*.jpg）转换为 COPASI Logistics HDF5。
+    输出与 parquet 转换相同：<uuid>/proprio_stats/proprio_stats_*.hdf5
+    """
+    del export_depth_videos, verbose  # Unitree 当前样本无有效 depths
+
+    def _progress(current: int, total: int, msg: str) -> None:
+        if progress_callback is None:
+            return
+        try:
+            progress_callback(int(current), int(total), str(msg))
+        except Exception:
+            pass
+
+    def _cancelled() -> bool:
+        if should_cancel is None:
+            return False
+        try:
+            return bool(should_cancel())
+        except Exception:
+            return False
+
+    _progress(0, 0, "正在加载转换配置…")
+    conversion_config = _load_conversion_config(config_file)
+    if output_root_override:
+        try:
+            conversion_config["output_root"] = str(Path(output_root_override).expanduser())
+            conversion_config["use_copasi_structure"] = True
+        except Exception:
+            conversion_config["output_root"] = str(output_root_override)
+            conversion_config["use_copasi_structure"] = True
+    do_export_videos = bool(conversion_config.get("export_videos", True)) if export_videos is None else bool(export_videos)
+
+    if dataset_root is None:
+        dataset_root = os.environ.get("LEROBOT_HOME", os.path.expanduser("~/.cache/huggingface/lerobot"))
+
+    dataset_root = Path(dataset_root).expanduser()
+    episode_dir = dataset_root / repo_id
+    if not is_unitree_episode_dir(episode_dir):
+        print(f"不是 Unitree episode 目录: {episode_dir}")
+        return False
+
+    try:
+        from datetime import datetime as _dt
+        run_ts = _dt.now().strftime("%Y%m%d_%H%M%S")
+    except Exception:
+        run_ts = str(int(time.time()))
+
+    logistics_dir: Optional[Path] = None
+    if conversion_config["use_copasi_structure"] and conversion_config["output_root"]:
+        output_root = Path(conversion_config["output_root"]).expanduser()
+        logistics_dir_name = f"Logistics_{run_ts}" if timestamped_logistics_dir else "Logistics"
+        logistics_dir = output_root / logistics_dir_name
+        if timestamped_logistics_dir:
+            try:
+                if logistics_dir.exists() and any(logistics_dir.iterdir()):
+                    i = 2
+                    while True:
+                        cand = output_root / f"{logistics_dir_name}_{i}"
+                        if not cand.exists():
+                            logistics_dir = cand
+                            break
+                        i += 1
+            except Exception:
+                pass
+        try:
+            logistics_dir.mkdir(parents=True, exist_ok=True)
+        except (PermissionError, OSError) as e:
+            writable = _ensure_writable_output_root(None)
+            if writable is not None:
+                print(f"⚠️  无权限创建输出目录 {logistics_dir}，改用可写目录 {writable}: {e}")
+                _progress(0, 1, f"原输出目录无权限，改用 {writable}")
+                conversion_config["output_root"] = str(writable)
+                conversion_config["use_copasi_structure"] = True
+                output_root = writable
+                logistics_dir = output_root / logistics_dir_name
+                if timestamped_logistics_dir:
+                    try:
+                        if logistics_dir.exists() and any(logistics_dir.iterdir()):
+                            i = 2
+                            while True:
+                                cand = output_root / f"{logistics_dir_name}_{i}"
+                                if not cand.exists():
+                                    logistics_dir = cand
+                                    break
+                                i += 1
+                    except Exception:
+                        pass
+                try:
+                    logistics_dir.mkdir(parents=True, exist_ok=True)
+                except Exception as e2:
+                    print(f"⚠️  回退目录仍无法创建 {logistics_dir}: {e2}")
+                    conversion_config["use_copasi_structure"] = False
+                    conversion_config["output_root"] = None
+            else:
+                print(f"⚠️  无权限创建输出目录 {logistics_dir}，将回退到数据集目录内输出: {e}")
+                _progress(0, 1, f"输出目录无权限，回退到数据集目录内的 hdf5/（{e}）")
+                conversion_config["use_copasi_structure"] = False
+                conversion_config["output_root"] = None
+
+        if conversion_config["use_copasi_structure"] and conversion_config["output_root"]:
+            main_scene = conversion_config["main_scene_name"] or "Logistics"
+            sub_scene = conversion_config["sub_scene_name"] or "Default"
+            action = conversion_config["action_name"] or repo_id
+            task_info_dir = logistics_dir / "task_info"
+            task_info_dir.mkdir(exist_ok=True)
+            meta_filename = f"{main_scene}-{sub_scene}-{action}.json"
+            meta_file = task_info_dir / meta_filename
+            if not meta_file.exists():
+                meta_file.touch()
+            if str(main_scene).strip() == "Logistics":
+                main_scene_dir = logistics_dir
+            else:
+                main_scene_dir = logistics_dir / main_scene
+            sub_scene_dir = main_scene_dir / sub_scene
+            action_dir = sub_scene_dir / action
+            action_dir.mkdir(parents=True, exist_ok=True)
+            hdf5_base_dir = action_dir
+            print(f"📁 使用COPASI输出结构: {hdf5_base_dir}")
+        else:
+            hdf5_base_dir = episode_dir / "hdf5"
+            hdf5_base_dir.mkdir(exist_ok=True)
+            print(f"📁 回退到默认输出结构: {hdf5_base_dir}")
+    else:
+        hdf5_base_dir = episode_dir / "hdf5"
+        hdf5_base_dir.mkdir(exist_ok=True)
+        print(f"📁 使用默认输出结构: {hdf5_base_dir}")
+
+    _progress(0, 1, f"输出目录: {hdf5_base_dir}")
+    if _cancelled():
+        return False
+
+    generated_uuids: List[str] = []
+    import uuid
+
+    try:
+        video_dir: Optional[Path] = None
+        if conversion_config["use_copasi_structure"]:
+            episode_uuid = str(uuid.uuid4())
+            out_episode_dir = hdf5_base_dir / episode_uuid
+            camera_dir = out_episode_dir / "camera"
+            video_dir = camera_dir / "video"
+            depth_dir = camera_dir / "depth"
+            audio_dir = out_episode_dir / "audio"
+            parameters_dir = out_episode_dir / "parameters"
+            proprio_stats_dir = out_episode_dir / "proprio_stats"
+            video_dir.mkdir(parents=True, exist_ok=True)
+            depth_dir.mkdir(parents=True, exist_ok=True)
+            audio_dir.mkdir(parents=True, exist_ok=True)
+            parameters_dir.mkdir(parents=True, exist_ok=True)
+            proprio_stats_dir.mkdir(parents=True, exist_ok=True)
+            for empty_dir in [video_dir, audio_dir, parameters_dir]:
+                keep_file = empty_dir / ".keep"
+                if not keep_file.exists():
+                    keep_file.touch()
+            hdf5_file = proprio_stats_dir / f"proprio_stats_{run_ts}.hdf5"
+        else:
+            hdf5_file = hdf5_base_dir / f"{episode_dir.name}_{run_ts}.hdf5"
+
+        ok, n_frames, color_files = _write_unitree_episode_hdf5(
+            episode_dir,
+            hdf5_file,
+            progress_callback=progress_callback,
+            should_cancel=should_cancel,
+        )
+        if not ok:
+            return False
+
+        if conversion_config["use_copasi_structure"]:
+            generated_uuids.append(episode_uuid)
+            if do_export_videos and video_dir is not None:
+                _progress(n_frames, n_frames, "正在复制 colors 到 camera/video…")
+                for cam, paths in color_files.items():
+                    cam_out = video_dir / cam
+                    cam_out.mkdir(parents=True, exist_ok=True)
+                    for src in paths:
+                        dst = cam_out / src.name
+                        if not dst.exists():
+                            shutil.copy2(src, dst)
+            print(f"✓ 已转换: {episode_dir.name} -> {episode_uuid}/proprio_stats/{hdf5_file.name}")
+
+        if conversion_config["use_copasi_structure"] and generated_uuids and (not timestamped_logistics_dir):
+            try:
+                _finalize_copasi_names_with_config(
+                    logistics_dir, main_scene_dir, sub_scene_dir, action_dir,
+                    1, conversion_config,
+                )
+            except Exception as e:
+                print(f"⚠️  目录重命名失败（忽略）: {e}")
+
+        _progress(1, 1, f"转换完成：{episode_dir.name}（{n_frames} 帧）")
+
+        try:
+            flag_path = episode_dir / "hdf5_converted.json"
+            payload = {
+                "converted": True,
+                "converted_at": run_ts,
+                "source_type": "unitree_episode",
+                "color_files": count_unitree_color_files(episode_dir),
+                "use_copasi_structure": bool(
+                    conversion_config.get("use_copasi_structure")
+                    and conversion_config.get("output_root")
+                ),
+                "output_root": str(conversion_config.get("output_root") or ""),
+                "output_dir": str(hdf5_base_dir),
+                "logistics_dir": str(logistics_dir) if logistics_dir is not None else "",
+                "timestamped_logistics_dir": bool(timestamped_logistics_dir),
+                "generated_uuids": generated_uuids,
+            }
+            with flag_path.open("w", encoding="utf-8") as f_flag:
+                json.dump(payload, f_flag, ensure_ascii=False, indent=2)
+            print(f"📝 已写入转换标记: {flag_path}")
+        except Exception as flag_e:
+            print(f"⚠️  写入转换标记失败（忽略）: {flag_e}")
+
+        return True
+    except Exception as e:
+        print(f"Unitree episode 转换失败: {e}")
+        import traceback
+        traceback.print_exc()
+        return False
+
 

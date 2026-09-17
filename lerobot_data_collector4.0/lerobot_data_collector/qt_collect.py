@@ -1667,7 +1667,7 @@ class QtApp(QMainWindow):
 
         self.hdf5_convert_table = QTableWidget()
         self.hdf5_convert_table.setColumnCount(6)
-        self.hdf5_convert_table.setHorizontalHeaderLabels(["选择", "repo_id/目录名", "parquet数量", "路径", "进度", "状态"])
+        self.hdf5_convert_table.setHorizontalHeaderLabels(["选择", "repo_id/目录名", "数量", "路径", "进度", "状态"])
         self.hdf5_convert_table.horizontalHeader().setSectionResizeMode(0, QHeaderView.ResizeMode.ResizeToContents)
         self.hdf5_convert_table.horizontalHeader().setSectionResizeMode(1, QHeaderView.ResizeMode.Stretch)
         self.hdf5_convert_table.horizontalHeader().setSectionResizeMode(2, QHeaderView.ResizeMode.ResizeToContents)
@@ -1753,7 +1753,7 @@ class QtApp(QMainWindow):
         title.setStyleSheet(f"color: {self.colors['text_primary'].name()}; font-weight: 700;")
         layout.addWidget(title)
 
-        tip = QLabel("上传已转换好的 HDF5 数据集到对象存储。请选择输出目录（包含 Logistics 子目录），扫描后勾选要上传的 UUID 数据集目录。")
+        tip = QLabel("上传已转换好的 HDF5。请选择转换输出目录（含 Logistics_*，例如 ~/hdf5_output/当天目录）。如果选的是原始 episode 目录，会按 hdf5_converted.json 自动定位输出。")
         tip.setWordWrap(True)
         tip.setStyleSheet(f"color: {self.colors['text_secondary'].name()};")
         layout.addWidget(tip)
@@ -1851,6 +1851,93 @@ class QtApp(QMainWindow):
         if picked:
             self.hdf5_upload_root_edit.setText(picked)
 
+    @staticmethod
+    def _collect_hdf5_upload_logistics_roots(base: Path) -> List[Path]:
+        """收集上传扫描用的 Logistics 根目录。
+
+        兼容：
+        - 直接选中 Logistics_* 目录
+        - 选中 output_root（其下有 Logistics_*）
+        - 选中 hdf5_output（其下是 YYYYMMDD_host/Logistics_*）
+        - 选中原始 episode/数据集目录（读取 hdf5_converted.json 指向的输出）
+        """
+        import json
+
+        found: List[Path] = []
+        seen = set()
+
+        def add(path: Optional[Path]) -> None:
+            if path is None:
+                return
+            try:
+                resolved = path.expanduser().resolve()
+            except Exception:
+                resolved = Path(str(path)).expanduser()
+            if not resolved.is_dir():
+                return
+            key = str(resolved)
+            if key in seen:
+                return
+            seen.add(key)
+            found.append(resolved)
+
+        def add_logistics_under(parent: Path) -> None:
+            try:
+                for child in sorted(parent.glob("Logistics*"), key=lambda p: p.name):
+                    if child.is_dir():
+                        add(child)
+            except Exception:
+                pass
+
+        if base.name.lower().startswith("logistics"):
+            add(base)
+        add_logistics_under(base)
+
+        try:
+            children = [p for p in base.iterdir() if p.is_dir()]
+        except Exception:
+            children = []
+        for child in children:
+            add_logistics_under(child)
+
+        flag_files: List[Path] = []
+        here_flag = base / "hdf5_converted.json"
+        if here_flag.is_file():
+            flag_files.append(here_flag)
+        for child in children:
+            child_flag = child / "hdf5_converted.json"
+            if child_flag.is_file():
+                flag_files.append(child_flag)
+            try:
+                for grandchild in child.iterdir():
+                    if not grandchild.is_dir():
+                        continue
+                    gc_flag = grandchild / "hdf5_converted.json"
+                    if gc_flag.is_file():
+                        flag_files.append(gc_flag)
+            except Exception:
+                pass
+
+        for flag in flag_files:
+            try:
+                data = json.loads(flag.read_text(encoding="utf-8"))
+            except Exception:
+                continue
+            logistics_dir = str(data.get("logistics_dir") or "").strip()
+            if logistics_dir:
+                add(Path(logistics_dir))
+                continue
+            output_root = str(data.get("output_root") or "").strip()
+            if output_root:
+                add_logistics_under(Path(output_root).expanduser())
+
+        if not found:
+            if (base / "Logistics").is_dir():
+                add(base / "Logistics")
+            else:
+                add(base)
+        return found
+
     def _scan_hdf5_upload_root(self) -> None:
         """扫描 Logistics 下的 UUID 目录并填充表格。"""
         if self._upload_hdf5_scanning:
@@ -1870,24 +1957,8 @@ class QtApp(QMainWindow):
 
         def worker():
             base = _Path(root).expanduser()
-            # 兼容：
-            # - output_root/Logistics
-            # - output_root/Logistics_YYYYMMDD_HHMMSS（或其它 Logistics*）
-            # - 用户直接选中了某个 Logistics* 目录
-            logistics_roots: List[_Path] = []
-            if base.is_dir() and base.name.lower().startswith("logistics"):
-                logistics_roots = [base]
-            else:
-                # 优先找 output_root 下的所有 Logistics* 目录
-                try:
-                    logistics_roots = sorted([p for p in base.glob("Logistics*") if p.is_dir()], key=lambda p: p.name)
-                except Exception:
-                    logistics_roots = []
-                if not logistics_roots:
-                    # 回退到旧逻辑：base/Logistics 或 base 本身
-                    logistics_roots = [base / "Logistics"] if (base / "Logistics").exists() else [base]
+            logistics_roots = self._collect_hdf5_upload_logistics_roots(base)
             items: List[Dict[str, Any]] = []
-            # 过滤不存在的 root
             logistics_roots = [p for p in logistics_roots if p.exists()]
             if not logistics_roots:
                 self.hdf5_upload_scan_done_signal.emit([])
@@ -1976,7 +2047,13 @@ class QtApp(QMainWindow):
             self.hdf5_upload_table.setItem(i, 3, QTableWidgetItem(_fmt_size(int(it.get("size_bytes", 0)))))
             self.hdf5_upload_table.setItem(i, 4, QTableWidgetItem(str(it.get("rel_path", ""))))
 
-        self.hdf5_upload_status.setText(f"扫描完成：{len(self._upload_hdf5_items)} 条")
+        if self._upload_hdf5_items:
+            self.hdf5_upload_status.setText(f"扫描完成：{len(self._upload_hdf5_items)} 条")
+        else:
+            self.hdf5_upload_status.setText(
+                "扫描完成：0 条。上传页要扫转换输出（含 Logistics_*），"
+                "不是原始 colors/data.json 目录。可改选 ~/hdf5_output 下当天目录后再扫。"
+            )
         self.hdf5_upload_progress.setValue(0)
         self.hdf5_upload_progress.setFormat("0%")
 
@@ -2215,22 +2292,70 @@ class QtApp(QMainWindow):
             return
 
         candidates: List[Dict[str, Any]] = []
-        # 仅扫描一级子目录（repo）
-        for p in base.iterdir():
-            if not p.is_dir():
-                continue
-            data_dir = p / "data"
-            train_dir = p / "train"
-            parquet_count = 0
+        seen: set = set()
+        from .dataset_manager import count_unitree_color_files, is_unitree_episode_dir
+
+        def _add_unitree(episode_dir: Path) -> None:
+            key = str(episode_dir.resolve()) if episode_dir.exists() else str(episode_dir)
+            if key in seen:
+                return
+            if not is_unitree_episode_dir(episode_dir):
+                return
+            seen.add(key)
+            color_count = count_unitree_color_files(episode_dir)
+            candidates.append({
+                "repo_id": episode_dir.name,
+                "dataset_root": str(episode_dir.parent),
+                "path": str(episode_dir),
+                "parquet_count": color_count,
+                "source_type": "unitree_episode",
+            })
+
+        def _parquet_count(repo_dir: Path) -> int:
+            data_dir = repo_dir / "data"
+            train_dir = repo_dir / "train"
+            n = 0
             try:
                 if data_dir.exists():
-                    parquet_count = len(list(data_dir.rglob("*.parquet")))
-                if parquet_count == 0 and train_dir.exists():
-                    parquet_count = len(list(train_dir.glob("*.parquet")))
+                    n = len(list(data_dir.rglob("*.parquet")))
+                if n == 0 and train_dir.exists():
+                    n = len(list(train_dir.glob("*.parquet")))
             except Exception:
-                parquet_count = 0
+                n = 0
+            return n
+
+        # 选中目录本身就是 Unitree episode（data.json + colors/）
+        _add_unitree(base)
+
+        # 一级子目录：LeRobot parquet repo，或 Unitree episode
+        try:
+            children = sorted([p for p in base.iterdir() if p.is_dir()], key=lambda p: p.name)
+        except Exception:
+            children = []
+        for p in children:
+            parquet_count = _parquet_count(p)
             if parquet_count > 0:
-                candidates.append({"repo_id": p.name, "dataset_root": str(base), "path": str(p), "parquet_count": parquet_count})
+                key = str(p.resolve()) if p.exists() else str(p)
+                if key not in seen:
+                    seen.add(key)
+                    candidates.append({
+                        "repo_id": p.name,
+                        "dataset_root": str(base),
+                        "path": str(p),
+                        "parquet_count": parquet_count,
+                        "source_type": "lerobot_parquet",
+                    })
+                continue
+            _add_unitree(p)
+            # 再下一层：例如选中 2026-09/ 时，1/episode_0001 仍能被发现
+            try:
+                grandchildren = sorted([c for c in p.iterdir() if c.is_dir()], key=lambda c: c.name)
+            except Exception:
+                grandchildren = []
+            for child in grandchildren:
+                if _parquet_count(child) > 0:
+                    continue
+                _add_unitree(child)
 
         self._hdf5_convert_candidates = candidates
         self._hdf5_convert_row_map = {it["repo_id"]: idx for idx, it in enumerate(candidates)}
@@ -2241,7 +2366,10 @@ class QtApp(QMainWindow):
             chk.setCheckState(Qt.CheckState.Checked)
             self.hdf5_convert_table.setItem(i, 0, chk)
             self.hdf5_convert_table.setItem(i, 1, QTableWidgetItem(it["repo_id"]))
-            self.hdf5_convert_table.setItem(i, 2, QTableWidgetItem(str(it["parquet_count"])))
+            count_text = str(it["parquet_count"])
+            if it.get("source_type") == "unitree_episode":
+                count_text = f"{it['parquet_count']} JPG"
+            self.hdf5_convert_table.setItem(i, 2, QTableWidgetItem(count_text))
             self.hdf5_convert_table.setItem(i, 3, QTableWidgetItem(it["path"]))
 
             pb = QProgressBar()
@@ -2257,7 +2385,16 @@ class QtApp(QMainWindow):
             st.setForeground(QColor(self.colors['text_secondary']))
             self.hdf5_convert_table.setItem(i, 5, st)
 
-        self.hdf5_convert_status.setText(f"扫描完成：{len(candidates)} 个可转换数据集")
+        n_unitree = sum(1 for it in candidates if it.get("source_type") == "unitree_episode")
+        n_parquet = len(candidates) - n_unitree
+        if n_unitree and n_parquet:
+            self.hdf5_convert_status.setText(
+                f"扫描完成：{len(candidates)} 个可转换数据集（LeRobot {n_parquet}，Unitree episode {n_unitree}）"
+            )
+        elif n_unitree:
+            self.hdf5_convert_status.setText(f"扫描完成：{n_unitree} 个 Unitree episode（将把 colors 转为 HDF5）")
+        else:
+            self.hdf5_convert_status.setText(f"扫描完成：{len(candidates)} 个可转换数据集")
 
     def _convert_checked_candidates(self) -> None:
         """批量转换勾选的数据集（总进度 + 当前数据集进度）。"""
@@ -2304,15 +2441,14 @@ class QtApp(QMainWindow):
         try:
             import socket, re
             from pathlib import Path
-            from .dataset_manager import _load_conversion_config
+            from .dataset_manager import _ensure_writable_output_root, _load_conversion_config
 
             cfg = _load_conversion_config(cfg_file)
             base_root = (cfg.get("output_root") or "").strip()
-            if not base_root:
-                # 若配置未给出 output_root，回退到用户主目录下的 hdf5_output
-                base_root = str(Path.home() / "hdf5_output")
-            base_root = str(Path(base_root).expanduser())
-            Path(base_root).mkdir(parents=True, exist_ok=True)
+            writable = _ensure_writable_output_root(base_root or None)
+            if writable is None:
+                raise RuntimeError("找不到可写的 HDF5 输出目录")
+            base_root = str(writable)
 
             day = datetime.now().strftime("%Y%m%d")
             host = socket.gethostname() or "host"
@@ -2388,7 +2524,7 @@ class QtApp(QMainWindow):
             return bool(self._batch_convert_cancel_event.is_set()) if self._batch_convert_cancel_event is not None else False
 
         def worker():
-            from .dataset_manager import convert_parquet_to_hdf5
+            from .dataset_manager import convert_parquet_to_hdf5, convert_unitree_episode_to_hdf5
             export_videos = False
             try:
                 export_videos = bool(self.hdf5_convert_export_videos.isChecked())
@@ -2410,9 +2546,9 @@ class QtApp(QMainWindow):
                     Path(output_root_override).mkdir(parents=True, exist_ok=True)
             except Exception:
                 output_root_override = None
-            ok = convert_parquet_to_hdf5(
-                repo_id,
-                dataset_root,
+            convert_kwargs = dict(
+                repo_id=repo_id,
+                dataset_root=dataset_root,
                 config_file=config_file,
                 progress_callback=progress_cb,
                 should_cancel=should_cancel,
@@ -2422,6 +2558,10 @@ class QtApp(QMainWindow):
                 output_root_override=output_root_override,
                 timestamped_logistics_dir=ts_logistics,
             )
+            if it.get("source_type") == "unitree_episode":
+                ok = convert_unitree_episode_to_hdf5(**convert_kwargs)
+            else:
+                ok = convert_parquet_to_hdf5(**convert_kwargs)
             # 不要在子线程里用 QTimer.singleShot（可能不触发）；用信号回主线程更新 UI
             self.hdf5_batch_item_done_signal.emit(repo_id, bool(ok), config_file)
 

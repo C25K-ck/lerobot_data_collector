@@ -60,6 +60,27 @@ USER_TOKEN: Optional[str] = None
 SERVER_HOST: Optional[str] = None
 USER_INFO: Optional[dict] = None
 
+# 本地管理员账号：无需连接服务器即可进入客户端
+LOCAL_ADMIN_USERNAME = "admin"
+LOCAL_ADMIN_PASSWORD = "2525"
+LOCAL_ADMIN_TOKEN = "local_admin_token"
+
+
+def is_local_admin(user_identity: str, password: str) -> bool:
+    """判断是否为本地管理员账号。"""
+    return user_identity == LOCAL_ADMIN_USERNAME and password == LOCAL_ADMIN_PASSWORD
+
+
+def local_admin_user_info() -> dict:
+    """本地管理员登录后的用户信息。"""
+    return {
+        "user_id": 0,
+        "username": LOCAL_ADMIN_USERNAME,
+        "is_superuser": True,
+        "role": "admin",
+        "tenant_id": 0,
+    }
+
 
 def get_auth_headers():
     """获取带认证token的请求头，用于后续API调用。"""
@@ -551,13 +572,13 @@ class LoginDialog(QDialog):
         
         right_form_layout.addSpacing(20) # 组间距
 
-        # 手机号/邮箱
-        user_label = QLabel("手机号/邮箱")
+        # 账号
+        user_label = QLabel("账号")
         user_label.setStyleSheet(f"color: {self.colors['text_secondary'].name()}; font-size: 14px; font-weight: 500;")
         right_form_layout.addWidget(user_label)
         right_form_layout.addSpacing(6)
         self.user_input = QLineEdit()
-        self.user_input.setPlaceholderText("请输入手机号或邮箱")
+        self.user_input.setPlaceholderText("请输入账号")
         self.user_input.setStyleSheet(input_style)
         self.user_input.setMinimumHeight(50) # 物理锁定高度
         right_form_layout.addWidget(self.user_input)
@@ -738,7 +759,7 @@ class LoginDialog(QDialog):
         import requests
         import json
 
-        global USER_TOKEN, SERVER_HOST
+        global USER_TOKEN, SERVER_HOST, USER_INFO
 
         server_host = self.server_input.text().strip()
         user_identity = self.user_input.text().strip()
@@ -779,22 +800,24 @@ class LoginDialog(QDialog):
                 logger.debug("解析服务器地址失败：%s", e)
 
         if not user_identity:
-            QMessageBox.warning(self, "输入错误", "请输入手机号或邮箱")
+            QMessageBox.warning(self, "输入错误", "请输入账号")
             return
         if not password:
             QMessageBox.warning(self, "输入错误", "请输入密码")
             return
 
-        # 超级用户本地登录
-        if user_identity == "root" and password == "root":
-            self.token = "superuser_token_root"
-            self.user_info = {"user_id": 0, "username": "root", "is_superuser": True}
+        # 本地管理员登录（无需连接服务器）
+        if is_local_admin(user_identity, password):
+            self.token = LOCAL_ADMIN_TOKEN
+            self.user_info = local_admin_user_info()
             self.server_host = server_host if server_host else "local"
             if server_host:
                 self._save_config()
             USER_TOKEN = self.token
             SERVER_HOST = self.server_host
-            self.status_label.setText("超级用户 王兰发 登录成功！")
+            USER_INFO = self.user_info
+            logger.info("本地管理员登录成功：%s", LOCAL_ADMIN_USERNAME)
+            self.status_label.setText("管理员登录成功！")
             self.status_label.setStyleSheet(
                 f"color: {self.colors['accent_green'].name()}; font-size:20px;"
             )
@@ -837,7 +860,6 @@ class LoginDialog(QDialog):
             loading_dialog.close()
 
             if result.get("code") == 200:
-                global USER_INFO
                 self.token = result["data"]["token"]
                 self.user_info = result["data"]["user_info"]
                 self.server_host = server_host

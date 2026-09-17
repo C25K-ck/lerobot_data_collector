@@ -1,0 +1,37 @@
+{
+  "repo_id": "zsl_m1_demo",
+  "fps": 30,
+  "hand_dim": 0,
+  "leg_dim": 16,
+  "lcm_enabled": false,
+  "robot_name": "ZSL-M1",
+  "robot_series": "M1",
+  "dataset_root": "/home/hp/data/hf_dataset",
+  "ros2": {
+    "enabled": true,
+    "topics": [
+      {
+        "topic": "/zsl_m1/joint_states",
+        "type": "JointState",
+        "target": "joint.state",
+        "field": "position"
+      },
+      {
+        "topic": "/zsl_m1/joint_states_cmd",
+        "type": "Float32MultiArray",
+        "target": "joint.angles",
+        "field": "data"
+      }
+    ]
+  },
+  "dataset_fields": {
+    "observation.joint.position": {
+      "source": "joint.state",
+      "dim": 16
+    },
+    "action.joint.states_cmd": {
+      "source": "joint.angles",
+      "dim": 16
+    }
+  }
+}

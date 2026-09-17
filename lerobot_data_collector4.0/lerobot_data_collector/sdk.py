@@ -33,6 +33,22 @@ class LeRobotSDK:
         """
         登录平台
         """
+        from .qt_login import (
+            is_local_admin,
+            local_admin_user_info,
+            LOCAL_ADMIN_TOKEN,
+        )
+
+        if is_local_admin(username, password):
+            self.token = LOCAL_ADMIN_TOKEN
+            self.user_info = local_admin_user_info()
+            import lerobot_data_collector.qt_login as qt_login
+            qt_login.USER_TOKEN = self.token
+            qt_login.SERVER_HOST = self.server_host or "local"
+            qt_login.USER_INFO = self.user_info
+            logger.info("本地管理员登录成功: %s", username)
+            return True
+
         try:
             result: LoginResult = api_login(self.server_host, username, password)
             if result.code == 200:

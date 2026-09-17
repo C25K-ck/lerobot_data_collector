@@ -1,0 +1,37 @@
+{
+  "repo_id": "casbot_w1_demo",
+  "fps": 30,
+  "hand_dim": 0,
+  "leg_dim": 20,
+  "lcm_enabled": false,
+  "robot_name": "Casbot-W1",
+  "robot_series": "W1",
+  "dataset_root": "/home/hp/data/hf_dataset",
+  "ros2": {
+    "enabled": true,
+    "topics": [
+      {
+        "topic": "/motion_unified/get/joint_state",
+        "type": "JointState",
+        "target": "joint.state",
+        "field": "position"
+      },
+      {
+        "topic": "/motion_unified/control/Movej_transparent",
+        "type": "JointState",
+        "target": "joint.cmd",
+        "field": "position"
+      }
+    ]
+  },
+  "dataset_fields": {
+    "observation.joint.position": {
+      "source": "joint.state",
+      "dim": 20
+    },
+    "observation.joint.cmd": {
+      "source": "joint.cmd",
+      "dim": 20
+    }
+  }
+}

@@ -1,0 +1,162 @@
+[09/17 16:02:23.103894][info][1575320][LinuxUsbPal.cpp:334] Create PollingDeviceWatcher!
+[09/17 16:02:23.103909][info][1575320][DeviceManager.cpp:25] Current found device(s): (0)
+[09/17 16:02:23.103911][info][1575320][DeviceManager.cpp:405] Enable net device enumeration: true
+[09/17 16:02:24.107992][info][1575320][DeviceManager.cpp:25] Current device(s) list: (0)
+[09/17 16:02:24.108010][warning][1575320][ObException.cpp:32] A unrecoverable_exception has occurred!
+ - where: Pipeline.cpp(22)
+ - msg: No device found
+ - type: CAMERA_DISCONNECTED
+ - status: 112
+[09/17 16:02:25.928646][info][1575320][LinuxUsbPal.cpp:334] Create PollingDeviceWatcher!
+[09/17 16:02:25.928659][info][1575320][DeviceManager.cpp:25] Current found device(s): (0)
+[09/17 16:02:25.928661][info][1575320][DeviceManager.cpp:405] Enable net device enumeration: true
+[09/17 16:02:26.932071][info][1575320][DeviceManager.cpp:25] Current device(s) list: (0)
+[09/17 16:02:26.932101][warning][1575320][ObException.cpp:32] A unrecoverable_exception has occurred!
+ - where: Pipeline.cpp(22)
+ - msg: No device found
+ - type: CAMERA_DISCONNECTED
+ - status: 112
+[09/17 16:02:28.755336][info][1575320][LinuxUsbPal.cpp:334] Create PollingDeviceWatcher!
+[09/17 16:02:28.755348][info][1575320][DeviceManager.cpp:25] Current found device(s): (0)
+[09/17 16:02:28.755350][info][1575320][DeviceManager.cpp:405] Enable net device enumeration: true
+[09/17 16:02:29.758448][info][1575320][DeviceManager.cpp:25] Current device(s) list: (0)
+[09/17 16:02:29.758472][warning][1575320][ObException.cpp:32] A unrecoverable_exception has occurred!
+ - where: Pipeline.cpp(22)
+ - msg: No device found
+ - type: CAMERA_DISCONNECTED
+ - status: 112
+[09/17 16:14:18.559144][info][1583704][LinuxUsbPal.cpp:334] Create PollingDeviceWatcher!
+[09/17 16:14:18.559158][info][1583704][DeviceManager.cpp:25] Current found device(s): (0)
+[09/17 16:14:18.559160][info][1583704][DeviceManager.cpp:405] Enable net device enumeration: true
+[09/17 16:14:19.563612][info][1583704][DeviceManager.cpp:25] Current device(s) list: (0)
+[09/17 16:14:19.563643][warning][1583704][ObException.cpp:32] A unrecoverable_exception has occurred!
+ - where: Pipeline.cpp(22)
+ - msg: No device found
+ - type: CAMERA_DISCONNECTED
+ - status: 112
+[09/17 16:14:21.385545][info][1583704][LinuxUsbPal.cpp:334] Create PollingDeviceWatcher!
+[09/17 16:14:21.385557][info][1583704][DeviceManager.cpp:25] Current found device(s): (0)
+[09/17 16:14:21.385559][info][1583704][DeviceManager.cpp:405] Enable net device enumeration: true
+[09/17 16:14:22.389886][info][1583704][DeviceManager.cpp:25] Current device(s) list: (0)
+[09/17 16:14:22.389915][warning][1583704][ObException.cpp:32] A unrecoverable_exception has occurred!
+ - where: Pipeline.cpp(22)
+ - msg: No device found
+ - type: CAMERA_DISCONNECTED
+ - status: 112
+[09/17 16:14:24.214192][info][1583704][LinuxUsbPal.cpp:334] Create PollingDeviceWatcher!
+[09/17 16:14:24.214207][info][1583704][DeviceManager.cpp:25] Current found device(s): (0)
+[09/17 16:14:24.214209][info][1583704][DeviceManager.cpp:405] Enable net device enumeration: true
+[09/17 16:14:25.218261][info][1583704][DeviceManager.cpp:25] Current device(s) list: (0)
+[09/17 16:14:25.218290][warning][1583704][ObException.cpp:32] A unrecoverable_exception has occurred!
+ - where: Pipeline.cpp(22)
+ - msg: No device found
+ - type: CAMERA_DISCONNECTED
+ - status: 112
+[09/17 16:38:48.279824][info][1592632][LinuxUsbPal.cpp:334] Create PollingDeviceWatcher!
+[09/17 16:38:48.279835][info][1592632][DeviceManager.cpp:25] Current found device(s): (0)
+[09/17 16:38:48.279837][info][1592632][DeviceManager.cpp:405] Enable net device enumeration: true
+[09/17 16:38:49.283265][info][1592632][DeviceManager.cpp:25] Current device(s) list: (0)
+[09/17 16:38:49.283292][warning][1592632][ObException.cpp:32] A unrecoverable_exception has occurred!
+ - where: Pipeline.cpp(22)
+ - msg: No device found
+ - type: CAMERA_DISCONNECTED
+ - status: 112
+[09/17 16:38:51.106103][info][1592632][LinuxUsbPal.cpp:334] Create PollingDeviceWatcher!
+[09/17 16:38:51.106114][info][1592632][DeviceManager.cpp:25] Current found device(s): (0)
+[09/17 16:38:51.106116][info][1592632][DeviceManager.cpp:405] Enable net device enumeration: true
+[09/17 16:38:52.110075][info][1592632][DeviceManager.cpp:25] Current device(s) list: (0)
+[09/17 16:38:52.110112][warning][1592632][ObException.cpp:32] A unrecoverable_exception has occurred!
+ - where: Pipeline.cpp(22)
+ - msg: No device found
+ - type: CAMERA_DISCONNECTED
+ - status: 112
+[09/17 16:38:53.931087][info][1592632][LinuxUsbPal.cpp:334] Create PollingDeviceWatcher!
+[09/17 16:38:53.931099][info][1592632][DeviceManager.cpp:25] Current found device(s): (0)
+[09/17 16:38:53.931101][info][1592632][DeviceManager.cpp:405] Enable net device enumeration: true
+[09/17 16:38:54.935256][info][1592632][DeviceManager.cpp:25] Current device(s) list: (0)
+[09/17 16:38:54.935285][warning][1592632][ObException.cpp:32] A unrecoverable_exception has occurred!
+ - where: Pipeline.cpp(22)
+ - msg: No device found
+ - type: CAMERA_DISCONNECTED
+ - status: 112
+[09/17 16:50:35.405312][info][1598307][LinuxUsbPal.cpp:334] Create PollingDeviceWatcher!
+[09/17 16:50:35.405324][info][1598307][DeviceManager.cpp:25] Current found device(s): (0)
+[09/17 16:50:35.405326][info][1598307][DeviceManager.cpp:405] Enable net device enumeration: true
+[09/17 16:50:36.409294][info][1598307][DeviceManager.cpp:25] Current device(s) list: (0)
+[09/17 16:50:36.409323][warning][1598307][ObException.cpp:32] A unrecoverable_exception has occurred!
+ - where: Pipeline.cpp(22)
+ - msg: No device found
+ - type: CAMERA_DISCONNECTED
+ - status: 112
+[09/17 16:50:38.234166][info][1598307][LinuxUsbPal.cpp:334] Create PollingDeviceWatcher!
+[09/17 16:50:38.234180][info][1598307][DeviceManager.cpp:25] Current found device(s): (0)
+[09/17 16:50:38.234182][info][1598307][DeviceManager.cpp:405] Enable net device enumeration: true
+[09/17 16:50:39.238326][info][1598307][DeviceManager.cpp:25] Current device(s) list: (0)
+[09/17 16:50:39.238358][warning][1598307][ObException.cpp:32] A unrecoverable_exception has occurred!
+ - where: Pipeline.cpp(22)
+ - msg: No device found
+ - type: CAMERA_DISCONNECTED
+ - status: 112
+[09/17 16:50:41.061843][info][1598307][LinuxUsbPal.cpp:334] Create PollingDeviceWatcher!
+[09/17 16:50:41.061856][info][1598307][DeviceManager.cpp:25] Current found device(s): (0)
+[09/17 16:50:41.061858][info][1598307][DeviceManager.cpp:405] Enable net device enumeration: true
+[09/17 16:50:42.065863][info][1598307][DeviceManager.cpp:25] Current device(s) list: (0)
+[09/17 16:50:42.065887][warning][1598307][ObException.cpp:32] A unrecoverable_exception has occurred!
+ - where: Pipeline.cpp(22)
+ - msg: No device found
+ - type: CAMERA_DISCONNECTED
+ - status: 112
+[09/17 17:39:37.301042][info][1615729][LinuxUsbPal.cpp:334] Create PollingDeviceWatcher!
+[09/17 17:39:37.301056][info][1615729][DeviceManager.cpp:25] Current found device(s): (0)
+[09/17 17:39:37.301058][info][1615729][DeviceManager.cpp:405] Enable net device enumeration: true
+[09/17 17:39:38.305162][info][1615729][DeviceManager.cpp:25] Current device(s) list: (0)
+[09/17 17:39:38.305189][warning][1615729][ObException.cpp:32] A unrecoverable_exception has occurred!
+ - where: Pipeline.cpp(22)
+ - msg: No device found
+ - type: CAMERA_DISCONNECTED
+ - status: 112
+[09/17 17:39:40.126018][info][1615729][LinuxUsbPal.cpp:334] Create PollingDeviceWatcher!
+[09/17 17:39:40.126031][info][1615729][DeviceManager.cpp:25] Current found device(s): (0)
+[09/17 17:39:40.126032][info][1615729][DeviceManager.cpp:405] Enable net device enumeration: true
+[09/17 17:39:41.129925][info][1615729][DeviceManager.cpp:25] Current device(s) list: (0)
+[09/17 17:39:41.129963][warning][1615729][ObException.cpp:32] A unrecoverable_exception has occurred!
+ - where: Pipeline.cpp(22)
+ - msg: No device found
+ - type: CAMERA_DISCONNECTED
+ - status: 112
+[09/17 17:39:42.953165][info][1615729][LinuxUsbPal.cpp:334] Create PollingDeviceWatcher!
+[09/17 17:39:42.953179][info][1615729][DeviceManager.cpp:25] Current found device(s): (0)
+[09/17 17:39:42.953181][info][1615729][DeviceManager.cpp:405] Enable net device enumeration: true
+[09/17 17:39:43.957100][info][1615729][DeviceManager.cpp:25] Current device(s) list: (0)
+[09/17 17:39:43.957132][warning][1615729][ObException.cpp:32] A unrecoverable_exception has occurred!
+ - where: Pipeline.cpp(22)
+ - msg: No device found
+ - type: CAMERA_DISCONNECTED
+ - status: 112
+[09/17 20:31:33.432417][info][1666760][LinuxUsbPal.cpp:334] Create PollingDeviceWatcher!
+[09/17 20:31:33.432429][info][1666760][DeviceManager.cpp:25] Current found device(s): (0)
+[09/17 20:31:33.432431][info][1666760][DeviceManager.cpp:405] Enable net device enumeration: true
+[09/17 20:31:34.436231][info][1666760][DeviceManager.cpp:25] Current device(s) list: (0)
+[09/17 20:31:34.436257][warning][1666760][ObException.cpp:32] A unrecoverable_exception has occurred!
+ - where: Pipeline.cpp(22)
+ - msg: No device found
+ - type: CAMERA_DISCONNECTED
+ - status: 112
+[09/17 20:31:36.257386][info][1666760][LinuxUsbPal.cpp:334] Create PollingDeviceWatcher!
+[09/17 20:31:36.257400][info][1666760][DeviceManager.cpp:25] Current found device(s): (0)
+[09/17 20:31:36.257402][info][1666760][DeviceManager.cpp:405] Enable net device enumeration: true
+[09/17 20:31:37.261339][info][1666760][DeviceManager.cpp:25] Current device(s) list: (0)
+[09/17 20:31:37.261365][warning][1666760][ObException.cpp:32] A unrecoverable_exception has occurred!
+ - where: Pipeline.cpp(22)
+ - msg: No device found
+ - type: CAMERA_DISCONNECTED
+ - status: 112
+[09/17 20:31:39.084260][info][1666760][LinuxUsbPal.cpp:334] Create PollingDeviceWatcher!
+[09/17 20:31:39.084269][info][1666760][DeviceManager.cpp:25] Current found device(s): (0)
+[09/17 20:31:39.084271][info][1666760][DeviceManager.cpp:405] Enable net device enumeration: true
+[09/17 20:31:40.088240][info][1666760][DeviceManager.cpp:25] Current device(s) list: (0)
+[09/17 20:31:40.088268][warning][1666760][ObException.cpp:32] A unrecoverable_exception has occurred!
+ - where: Pipeline.cpp(22)
+ - msg: No device found
+ - type: CAMERA_DISCONNECTED
+ - status: 112
