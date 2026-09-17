@@ -1,0 +1,69 @@
+struct arm_sensor_struct
+{
+    int32_t    runModeVec[14];                      //current run mode              (14 actuators)
+    float      curCurrentVec[14];                   //current joint current         (14 actuators)
+    float      curSpeedVec[14];                     //current joint speed           (14 actuators)
+    float      curJointPosVec[14];                  //current joint pos             (14 actuators)
+    int32_t    curErrCodeVec[14];                   //current joint error code      (14 actuators)
+    int32_t    isUsed[14];                          //current joint used status     (14 actuators)
+}
+
+//Unit   N , N*m  , m  , m/s , rad , rad/s , A
+
+//arm_curStatus
+// 0：停止模式
+// 1：电流模式
+// 2：速度模式
+// 3：位置模式
+
+//arm_curErrCode
+//对应位为0表示无错误，为1表示出现错误
+// bit0  代表软件错误，如电机运行时写入FLASH等
+// bit1  代表过压
+// bit2  代表欠压
+// bit4  代表启动错误
+// bit5  代表速度反馈错误
+// bit6  代表过流
+// bit16 代表编码器通讯错误
+// bit17 代表电机温度过高
+// bit18 代表电路板温度过高
+
+
+struct hand_sensor_struct
+{
+    int32_t  isUsed[12];
+    int8_t  curStatusVec[12];                      //current joint status           (6 actuators)
+    int8_t  curErrCodeVec[12];                     //current error code             (6 actuators)
+    float    curJointPosVec[12];                   //current joint pos              (6 actuators)
+    float    curJointSpeedVec[12];                 //current finger joint speed     (6 actuators)
+    float    curForceVec[12];                      //current force value            (6 actuators)
+
+    int32_t current_status;
+    int32_t current_err_code;
+}
+
+//hand_curStatus
+// 0 正在松开
+// 1 正在抓取
+// 2 位置到位停止
+// 3 力控到位停止
+// 5 电流保护停止
+// 6 驱动器堵转停止
+// 7 驱动器故障停止
+
+//hand_curErrCode
+//对应位为0表示无错误，为1表示出现错误
+// Bit0 堵转故障
+// Bit1 过温故障
+// Bit2 过流故障
+// Bit3 电机异常
+// Bit4 通讯故障
+
+//current_status:
+//0  : IDLE
+//1  : SUCCESS
+//2  : FAILED
+//3  : RUNNING
+
+//current_err_code  //defined by custom module
+

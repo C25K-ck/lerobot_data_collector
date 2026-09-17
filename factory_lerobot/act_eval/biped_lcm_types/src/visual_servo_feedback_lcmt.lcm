@@ -1,0 +1,4 @@
+struct visual_servo_feedback_lcmt
+{
+    int32_t  fb_mode; // 0 for moving in visual servo mode, 1 for acchieving tolerance
+}

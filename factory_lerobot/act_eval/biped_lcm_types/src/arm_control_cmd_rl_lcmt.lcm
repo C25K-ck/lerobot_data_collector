@@ -1,0 +1,5 @@
+struct arm_control_cmd_rl_lcmt
+{
+    float q_des[14];
+    int32_t use_arm[14];
+}

@@ -1,0 +1,38 @@
+{
+  "repo_id": "go2_demo",
+  "fps": 30,
+  "hand_dim": 0,
+  "leg_dim": 12,
+  "lcm_enabled": false,
+  "dataset_root": "~/data/go2_dataset",
+  "ros2": {
+    "enabled": true,
+    "topics": [
+      {
+        "topic": "/go2/joint_states",
+        "type": "JointState",
+        "target": "joints.position",
+        "field": "position"
+      },
+      {
+        "topic": "/go2/joint_states",
+        "type": "JointState",
+        "target": "joints.velocity",
+        "field": "velocity"
+      },
+      {
+        "topic": "/go2/joint_states",
+        "type": "JointState",
+        "target": "joints.effort",
+        "field": "effort"
+      }
+    ]
+  },
+  "dataset_fields": {
+    "observation.joints.position": {
+      "source": "joints.position",
+      "dim": 12
+    }
+  }
+}
+

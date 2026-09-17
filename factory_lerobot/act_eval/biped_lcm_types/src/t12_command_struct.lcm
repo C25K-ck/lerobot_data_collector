@@ -1,0 +1,27 @@
+struct t12_command_struct
+{
+    int16_t SWA;
+    int16_t SWB;
+    int16_t SWC;
+    int16_t SWD;
+    int16_t SWE;
+    int16_t SWF;
+    int16_t SWG;
+    float left_stick_x;
+    float left_stick_y;
+    float right_stick_x;
+    float right_stick_y;
+    float varB;
+}
+
+struct t12_command_response
+{
+    int8_t robot_fsm_cmd;
+    int8_t a_flag;
+    int8_t b_flag;
+    int8_t c_flag;
+    int8_t d_flag;
+    float x_vel_des;
+    float y_vel_des;
+    float yaw_vel_des;
+}

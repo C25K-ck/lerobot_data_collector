@@ -1,0 +1,3 @@
+struct manager_ctrl_data_lcmt {
+    int8_t ctrl_arr[16];  // default all 0, [0]: control if report debug data
+}

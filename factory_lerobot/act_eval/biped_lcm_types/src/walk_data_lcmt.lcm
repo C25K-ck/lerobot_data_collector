@@ -1,0 +1,14 @@
+struct walk_data_lcmt {
+  float refMPCLinPos_W[3];
+  float refMPCLinVel_W[3];
+  float refRobotLinPos_W[3];
+  float desRobotLinPos_W[3];
+  float desMPCLinVel_W[3];
+  float swingLegCompensationByV_W[6];
+  float pfx_rel[2];
+  float pfy_rel[2];
+  float lp_vx[2];
+  float lp_vy[2];
+  float isEarlyContact[2];
+  float isDelayContact[2];
+}

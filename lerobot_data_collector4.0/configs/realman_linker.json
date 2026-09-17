@@ -1,0 +1,35 @@
+{
+  "repo_id": "realman_linker",
+  "fps": 30,
+  "hand_dim": 20,
+  "leg_dim": 6,
+  "lcm_enabled": false,
+  "dataset_root": "/home/dreame/data/hf_dataset",
+  "ros2": {
+    "enabled": true,
+    "topics": [
+      {
+        "topic": "/linker_hand/state_raw",
+        "type": "Float32MultiArray",
+        "target": "linkerhand.state",
+        "field": "position"
+      },
+      {
+        "topic": "/realman/current_state",
+        "type": "JointState",
+        "target": "realman.state",
+        "field": "position"
+      }
+    ]
+  },
+  "dataset_fields": {
+    "observation.hand.position": {
+      "source": "linkerhand.state",
+      "dim": 20
+    },
+    "observation.leg.position": {
+      "source": "realman.state",
+      "dim": 6
+    }
+  }
+}

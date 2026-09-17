@@ -1,0 +1,28 @@
+struct error_data_lcmt {
+  int64_t timestamp;
+  int64_t seq_num;
+  byte error_flag;
+
+  byte motion_control_fsm;
+  int32_t motion_control_error_stack[3];
+
+  byte hard_error_leg_left[6];
+  byte hard_error_leg_right[6];
+  byte hard_error_arm_left[7];
+  byte hard_error_arm_right[7];
+  byte hard_error_waist[2];
+  byte hard_error_head[2];
+
+  byte hard_error_hand[2];
+  byte hard_error_gripper[2];
+
+  byte hard_error_leg_ft[2];
+  byte hard_error_arm_ft[2];
+  
+  byte hard_error_ecat_stack[4];
+  byte hard_error_imu;
+  byte hard_error_power;
+  int32_t hard_error_other_stack[3];
+
+  byte ecat_node_num[3];
+}

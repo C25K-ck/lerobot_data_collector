@@ -1,0 +1,56 @@
+{
+  "repo_id": "g1_lcm_demo",
+  "fps": 30,
+  "hand_dim": 30,
+  "leg_dim": 12,
+  "lcm_enabled": true,
+  "ros2_enabled": false,
+  "robot_type": "gen1",
+  "dataset_root": "/home/dreame/data/hf_dataset",
+  "dataset_fields": {
+    "observation.hands.state": {
+      "source": "hands.state",
+      "dim": 30
+    },
+    "observation.hands.vel": {
+      "source": "hands.vel",
+      "dim": 30
+    },
+    "observation.hands.torque": {
+      "source": "hands.torque",
+      "dim": 30
+    },
+    "observation.hands.current": {
+      "source": "hands.current",
+      "dim": 30
+    },
+    "observation.hands.action": {
+      "source": "hands.action",
+      "dim": 30
+    },
+    "observation.legs.state_q": {
+      "source": "legs.state_q",
+      "dim": 12
+    },
+    "observation.legs.state_qd": {
+      "source": "legs.state_qd",
+      "dim": 12
+    },
+    "observation.legs.state_tau": {
+      "source": "legs.state_tau",
+      "dim": 12
+    },
+    "observation.legs.cmd_q": {
+      "source": "legs.cmd_q",
+      "dim": 12
+    },
+    "observation.legs.cmd_qd": {
+      "source": "legs.cmd_qd",
+      "dim": 12
+    },
+    "observation.legs.cmd_tau": {
+      "source": "legs.cmd_tau",
+      "dim": 12
+    }
+  }
+}

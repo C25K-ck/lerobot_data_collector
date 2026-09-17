@@ -1,0 +1,70 @@
+struct icp_wbc_debug_data_t 
+{
+    float swing_state[2];
+    float contact_state[2];
+
+    float current_cop[9];
+    float planned_cop[9];
+    float desired_cop[9];
+
+    float current_icp[9];
+    float planned_icp[9];
+    float desired_icp[9];
+
+    float current_com[9];
+    float planned_com[9];
+    float desired_com[9];
+
+    float delta_cmp[6];
+    float cmp_zmp_kp[3];
+    float cmp_zmp_kd[3];
+    float cmp_com_kcom[3];
+    float cmp_com_kzmp[3];
+    float cmp_alpha_inv[3];
+
+    float contactEstimate[4];
+    float foot_zmp_local[6];
+    float foot_zmp[6];
+
+    float foot_pos_cmd[12];
+    float foot_vel_cmd[12];
+    float foot_acc_cmd[12];
+    float foot_acc_numeric[12];
+
+    float body_pos_cmd[12];
+    float current_rpy[3];
+    
+    float modified_foot_pos[6];
+    float foot_pos[12];
+    float foot_vel[12];
+
+    float foot_local_pos_cmd[12];
+    float foot_local_vel_cmd[12];
+    float foot_local_pos[12];
+    float foot_local_vel[12];
+
+    float jpos_cmd[12];
+    float jvel_cmd[12];
+    float jacc_cmd[12];
+
+    float jpos[12];
+    float jvel[12];
+
+    float pDesFootWorldInit[6];
+    float rpyDesFootWorldInit[6];
+    float pDesFootWorldFinal[6];
+    float rpyDesFootWorldFinal[6];
+    float pDesBodyWorldInit[6];
+    float rpyDesBodyWorldInit[6];
+    float pDesBodyWorldFinal[6];
+    float rpyDesBodyWorldFinal[6];
+
+    float pDefautDesFinalFootWorld[6];
+    float pDefaultDesFootWorld[6];
+
+    float init_place_foot_pos[6];
+
+    float stepL;
+    float stepW;
+    float stepYaw;
+}

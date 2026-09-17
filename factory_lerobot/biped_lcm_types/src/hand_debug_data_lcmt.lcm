@@ -1,0 +1,7 @@
+struct hand_debug_data_lcmt {
+    int8_t joint_error_code[12];
+    int8_t joint_status[12];
+    float joint_curPos[12];
+    float joint_force[12];
+    float joint_current[12];
+}

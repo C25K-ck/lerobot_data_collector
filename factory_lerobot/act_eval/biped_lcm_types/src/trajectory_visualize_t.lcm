@@ -1,0 +1,24 @@
+struct trajectory_visualize_t
+{
+    int32_t root_point_num;
+    float root_traj_x[100];
+    float root_traj_y[100];
+    float root_traj_z[100];
+    float root_traj_roll[100];
+    float root_traj_pitch[100];
+    float root_traj_yaw[100];
+    int32_t foot_L_point_num;
+    float foot_L_traj_x[100];
+    float foot_L_traj_y[100];
+    float foot_L_traj_z[100];
+    float foot_L_traj_roll[100];
+    float foot_L_traj_pitch[100];
+    float foot_L_traj_yaw[100];
+    int32_t foot_R_point_num;
+    float foot_R_traj_x[100];
+    float foot_R_traj_y[100];
+    float foot_R_traj_z[100];
+    float foot_R_traj_roll[100];
+    float foot_R_traj_pitch[100];
+    float foot_R_traj_yaw[100];
+}

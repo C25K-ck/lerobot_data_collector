@@ -1,0 +1,6 @@
+struct hitbot_data_lcmt
+{
+    int8_t status;
+    float position;
+    float current;
+}

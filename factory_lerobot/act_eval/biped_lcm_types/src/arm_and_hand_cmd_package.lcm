@@ -1,0 +1,11 @@
+struct arm_and_hand_cmd_package
+{
+    int32_t  isUsed;
+    int32_t  control_mode[26];       //control mode for fsm control
+    float    jointPosVec[26];        // -- joint pos     (14 left right actuators + 12  left right finger)
+    float    jointSpeedVec[26];      // -- joint speed   (14 left right actuators + 12  left right finger)
+    float    jointCurrentVec[26];    // -- joint current/force max value (14 left right actuators + 12  left right finger )
+    int32_t  isNewImpedance[4];      // -- If you want to set stiffness and damping, set this value to 1 (2 left right arms + 2 left right hands)
+    float    jointStiffness[26];     // -- joint stiffness (14 left right actuators + 12  left right finger)
+    float    handForceMaxValue[12];  //force max value 
+}

@@ -1,0 +1,29 @@
+# Local editor / agent settings
+.claude/
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+dist/
+build/
+.venv/
+venv/
+env/
+ENV/
+
+# Logs and OS
+*.log
+.DS_Store
+Thumbs.db
+
+# Accidental pip output
+/=7.2.0
+lerobot_data_collector4.0/=7.2.0

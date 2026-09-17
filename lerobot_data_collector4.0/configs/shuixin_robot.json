@@ -1,0 +1,60 @@
+{
+  "repo_id": "myarm_demo",
+  "fps": 30,
+  "hand_dim": 7,
+  "leg_dim": 0,
+  "lcm_enabled": false,
+  "dataset_root": "/home/dreame/data/hf_dataset",
+  "ros2": {
+    "enabled": true,
+    "topics": [
+      {
+        "topic": "/mercury_l_joint_states",
+        "type": "JointState",
+        "target": "left_arm.state",
+        "field": "position"
+      },
+      {
+        "topic": "/mercury_l_joint_states",
+        "type": "JointState",
+        "target": "left_arm.vel",
+        "field": "velocity"
+      },
+      {
+        "topic": "/mercury_r_joint_states",
+        "type": "JointState",
+        "target": "right_arm.state",
+        "field": "position"
+      },
+      {
+        "topic": "/mercury_r_joint_states",
+        "type": "JointState",
+        "target": "right_arm.vel",
+        "field": "velocity"
+      },
+      {
+        "topic": "/task_mode",
+        "type": "Int32",
+        "target": "task_mode"
+      }
+    ]
+  },
+  "dataset_fields": {
+    "observation.left_arm.position": {
+      "source": "left_arm.state",
+      "dim": 7
+    },
+    "observation.left_arm.velocity": {
+      "source": "left_arm.vel",
+      "dim": 7
+    },
+    "observation.right_arm.position": {
+      "source": "right_arm.state",
+      "dim": 7
+    },
+    "observation.right_arm.velocity": {
+      "source": "right_arm.vel",
+      "dim": 7
+    }
+  }
+}

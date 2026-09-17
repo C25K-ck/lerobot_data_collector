@@ -1,0 +1,10 @@
+struct arm_control_data_lcmt
+{
+    float joint_curPos[14];
+    float joint_curVel[14];
+    float joint_curCurrent[14];
+    float joint_curTor[14];
+    float shoulder_pos[12];
+    float elbow_pos[12];
+    float hand_pos[12];
+}

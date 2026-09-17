@@ -1,0 +1,4 @@
+struct vision_control_command_struct
+{
+    int32_t  control_mode;                                //control mode for fsm control  (defined by custom module)
+}

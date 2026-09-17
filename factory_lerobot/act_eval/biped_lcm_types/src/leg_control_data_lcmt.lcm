@@ -1,0 +1,12 @@
+struct leg_control_data_lcmt {
+    float q[12];
+    float qd[12];
+    float pos[12];
+    float vel[12];
+    float tau_est[12];
+    float force_est[12];
+    float force_desired[12];
+    float knee_pos[12];
+    float ankle_pos[6];
+    float ft_sensor[12];
+}

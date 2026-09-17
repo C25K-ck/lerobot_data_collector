@@ -1,0 +1,16 @@
+struct dcm_motion_tracking_control_lcmt {
+    float xi_act[3];
+    float r_vrp_control[3];
+    float F_grf[3];
+    float F_WLeftFoot[3];
+    float F_WRightFoot[3];
+    float tau_WLeftFoot[3];
+    float tau_WRightFoot[3];
+    float calculate_stance_leg;
+    float wbic_q[12];
+    float wbic_qd[12];
+    float wbic_tau[12];
+    float wbic_f[12];
+    float com_dynamics_x[3];
+    float com_dynamics_xdot[3];
+}

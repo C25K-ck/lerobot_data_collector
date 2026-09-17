@@ -1,0 +1,14 @@
+struct ecat_debug_data_lcmt {
+    int32_t    dim;
+    int16_t  stat[dim];
+    int16_t  res1[dim];
+    int16_t  res2[dim];
+    float  mc_curPos[dim];
+    float  mc_curVel[dim];
+    float  mc_curCur[dim];
+    float  mc_curTor[dim];
+    float  original_curPosH[dim];
+    float  original_curPosL[dim];
+    float  original_curVel[dim];
+    float  original_curTor[dim];
+}

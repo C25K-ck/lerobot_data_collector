@@ -1,0 +1,7 @@
+struct arm_control_cmd_lcmt
+{
+    int32_t isUsed[14];
+    float joint_tarPos[14];
+    float joint_tarTor[14];
+    float duration[14];
+}

@@ -1,0 +1,35 @@
+{
+  "repo_id": "zsl1_demo",
+  "fps": 30,
+  "hand_dim": 0,
+  "leg_dim": 16,
+  "lcm_enabled": false,
+  "dataset_root": "/home/hp/data/hf_dataset",
+  "ros2": {
+    "enabled": true,
+    "topics": [
+      {
+        "topic": "/joint_states",
+        "type": "JointState",
+        "target": "joint.state",
+        "field": "position"
+      },
+      {
+        "topic": "/joint_states_cmd",
+        "type": "Float32MultiArray",
+        "target": "joint.angles",
+        "field": "data"
+      }
+    ]
+  },
+  "dataset_fields": {
+    "observation.joint.position": {
+      "source": "joint.state",
+      "dim": 16
+    },
+    "action.joint.states_cmd": {
+      "source": "joint.angles",
+      "dim": 16
+    }
+  }
+}

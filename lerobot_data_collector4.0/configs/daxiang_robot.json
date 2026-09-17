@@ -1,0 +1,40 @@
+{
+  "repo_id": "myarm_demo",
+  "fps": 30,
+  "hand_dim": 7,
+  "leg_dim": 0,
+  "lcm_enabled": false,
+  "dataset_root": "/home/dreame/data/hf_dataset",
+  "ros2": {
+    "enabled": true,
+    "topics": [
+      {
+        "topic": "/myarm/systema/c_joint_states",
+        "type": "JointState",
+        "target": "right_arm.state",
+        "field": "position"
+      },
+      {
+        "topic": "/myarm/systema/m_joint_states",
+        "type": "JointState",
+        "target": "left_slave_arm.state",
+        "field": "position"
+      },
+      {
+        "topic": "/task_mode",
+        "type": "Int32",
+        "target": "task_mode"
+      }
+    ]
+  },
+  "dataset_fields": {
+    "observation.right_arm.position": {
+      "source": "right_arm.state",
+      "dim": 7
+    },
+    "observation.left_slave_arm.position": {
+      "source": "left_slave_arm.state",
+      "dim": 7
+    }
+  }
+}

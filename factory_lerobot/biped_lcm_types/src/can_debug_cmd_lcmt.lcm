@@ -1,0 +1,9 @@
+struct can_debug_cmd_lcmt {
+    int32_t raw_target_position[14];
+    int32_t raw_target_vel[14];
+    int32_t raw_target_current[14];
+    int32_t adrc_x1[14];
+    int32_t cmd_id[14];
+    float motor_tarPos[14];
+    float joint_tarPos[14];
+}

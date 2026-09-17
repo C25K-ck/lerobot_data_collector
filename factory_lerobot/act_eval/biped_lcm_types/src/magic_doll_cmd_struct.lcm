@@ -1,0 +1,5 @@
+struct magic_doll_cmd_struct
+{
+    int32_t  n_dof; //number of degrees
+    float    target_pos[n_dof];
+}

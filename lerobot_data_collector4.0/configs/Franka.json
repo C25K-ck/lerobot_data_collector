@@ -1,0 +1,47 @@
+{
+  "repo_id": "franka_ee_pose_demo",
+  "fps": 30,
+  "hand_dim": 8,
+  "leg_dim": 0,
+  "lcm_enabled": false,
+  "dataset_root": "/home/dreame/data/hf_dataset",
+
+  "ros2": {
+    "enabled": true,
+    "topics": [
+      {
+        "topic": "/franka/observation/state",
+        "type": "JointState",
+        "target": "hand.state",
+        "field": "position"
+      },
+      {
+        "topic": "/franka/observation/joint_state",
+        "type": "JointState",
+        "target": "joint.state",
+        "field": "position"
+      },
+      {
+        "topic": "/franka/action/array",
+        "type": "Float32MultiArray",
+        "target": "hand.action",
+        "field": "data"
+      }
+    ]
+  },
+
+  "dataset_fields": {
+    "observation.hand.position": {
+        "source": "hand.state",
+        "dim": 8
+    },
+    "observation.joint.position": {
+        "source": "joint.state",
+        "dim": 7
+    },
+    "action.hand.command": {
+        "source": "hand.action",
+        "dim": 7
+    }
+  }
+}

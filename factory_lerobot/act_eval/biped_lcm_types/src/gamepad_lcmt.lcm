@@ -1,0 +1,11 @@
+struct gamepad_lcmt {
+    int32_t leftBumper, rightBumper, leftTriggerButton, rightTriggerButton;
+    int32_t back, start, logitechButton;
+    int32_t a, b, x, y;
+    int32_t leftStickButton, rightStickButton;
+    
+    float leftTriggerAnalog; 
+    float rightTriggerAnalog;
+    float leftStickAnalog[2];
+    float rightStickAnalog[2];
+}

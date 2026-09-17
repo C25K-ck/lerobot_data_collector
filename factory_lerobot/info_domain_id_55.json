@@ -1,0 +1,982 @@
+{
+  "dev_sn": "A2202AP50CN0000500",
+  "ros_domain_id": "55",
+  "robot_parameters": {
+    "__collection-name__": "robot-parameters",
+    "robot_type": "p5",
+    "simulator": false,
+    "communicators": [
+      {
+        "id": 0,
+        "type": "EcatCommunicator",
+        "enable": true,
+        "use_hub": true,
+        "components": [
+          {
+            "type": "LEG_L",
+            "enable": true,
+            "joints": [
+              {
+                "id": 0,
+                "enable": true,
+                "type": "ROTARY_MOTOR",
+                "motor_id": 0,
+                "motor_type": "P110_30",
+                "motor_version": "2.5.6",
+                "limits": [
+                  -0.349,
+                  0.524
+                ],
+                "direction": -1,
+                "offset": -0.0,
+                "motor_max_current": 200.0,
+                "motor_max_velocity": 350.0,
+                "motor_limits": [
+                  false,
+                  [
+                    -0.349,
+                    0.524
+                  ]
+                ]
+              },
+              {
+                "id": 1,
+                "enable": true,
+                "type": "ROTARY_MOTOR",
+                "motor_id": 1,
+                "motor_type": "P60_30",
+                "motor_version": "9.5.6",
+                "limits": [
+                  -0.262,
+                  0.524
+                ],
+                "direction": 1,
+                "offset": 0.0,
+                "motor_max_current": 21.0,
+                "motor_max_velocity": 350.0,
+                "motor_limits": [
+                  false,
+                  [
+                    -0.262,
+                    0.524
+                  ]
+                ]
+              },
+              {
+                "id": 2,
+                "enable": true,
+                "type": "ROTARY_MOTOR",
+                "motor_id": 2,
+                "motor_type": "P110_30",
+                "motor_version": "2.5.6",
+                "limits": [
+                  -2.094,
+                  0.698
+                ],
+                "direction": 1,
+                "offset": 0.698,
+                "motor_max_current": 200.0,
+                "motor_max_velocity": 350.0,
+                "motor_limits": [
+                  false,
+                  [
+                    -0.698,
+                    2.094
+                  ]
+                ]
+              },
+              {
+                "id": 3,
+                "enable": true,
+                "type": "ROTARY_MOTOR",
+                "motor_id": 3,
+                "motor_type": "P110_30",
+                "motor_version": "2.5.6",
+                "limits": [
+                  0.0,
+                  2.618
+                ],
+                "direction": -1,
+                "offset": 0.0,
+                "motor_max_current": 200.0,
+                "motor_max_velocity": 350.0,
+                "motor_limits": [
+                  false,
+                  [
+                    0.0,
+                    2.618
+                  ]
+                ]
+              },
+              {
+                "id": 4,
+                "enable": true,
+                "type": "ROTARY_MOTOR",
+                "motor_id": 4,
+                "motor_type": "P60_30",
+                "motor_version": "9.5.6",
+                "limits": [
+                  -3.14,
+                  3.14
+                ],
+                "direction": 1,
+                "offset": 0.5235,
+                "motor_max_current": 21.0,
+                "motor_max_velocity": 350.0,
+                "motor_limits": [
+                  false,
+                  [
+                    -1.309,
+                    0.524
+                  ]
+                ]
+              },
+              {
+                "id": 5,
+                "enable": true,
+                "type": "ROTARY_MOTOR",
+                "motor_id": 5,
+                "motor_type": "P60_30",
+                "motor_version": "9.5.6",
+                "limits": [
+                  -3.14,
+                  3.14
+                ],
+                "direction": 1,
+                "offset": -0.5235,
+                "motor_max_current": 21.0,
+                "motor_max_velocity": 350.0,
+                "motor_limits": [
+                  false,
+                  [
+                    -0.349,
+                    0.349
+                  ]
+                ]
+              }
+            ]
+          },
+          {
+            "type": "LEG_FT_L",
+            "enable": false,
+            "joints": [
+              {
+                "id": 0,
+                "enable": true,
+                "type": "FT_MOTOR",
+                "motor_id": 0,
+                "motor_type": "",
+                "motor_version": ""
+              }
+            ]
+          },
+          {
+            "type": "LEG_R",
+            "enable": true,
+            "joints": [
+              {
+                "id": 0,
+                "enable": true,
+                "type": "ROTARY_MOTOR",
+                "motor_id": 0,
+                "motor_type": "P110_30",
+                "motor_version": "2.5.6",
+                "limits": [
+                  -0.524,
+                  0.349
+                ],
+                "direction": -1,
+                "offset": 0.0,
+                "motor_max_current": 200.0,
+                "motor_max_velocity": 350.0,
+                "motor_limits": [
+                  false,
+                  [
+                    -0.349,
+                    0.524
+                  ]
+                ]
+              },
+              {
+                "id": 1,
+                "enable": true,
+                "type": "ROTARY_MOTOR",
+                "motor_id": 1,
+                "motor_type": "P60_30",
+                "motor_version": "9.5.6",
+                "limits": [
+                  -0.524,
+                  0.262
+                ],
+                "direction": 1,
+                "offset": 0.0,
+                "motor_max_current": 21.0,
+                "motor_max_velocity": 350.0,
+                "motor_limits": [
+                  false,
+                  [
+                    -0.262,
+                    0.524
+                  ]
+                ]
+              },
+              {
+                "id": 2,
+                "enable": true,
+                "type": "ROTARY_MOTOR",
+                "motor_id": 2,
+                "motor_type": "P110_30",
+                "motor_version": "2.5.6",
+                "limits": [
+                  -2.094,
+                  0.698
+                ],
+                "direction": -1,
+                "offset": 0.698,
+                "motor_max_current": 200.0,
+                "motor_max_velocity": 350.0,
+                "motor_limits": [
+                  false,
+                  [
+                    -0.698,
+                    2.094
+                  ]
+                ]
+              },
+              {
+                "id": 3,
+                "enable": true,
+                "type": "ROTARY_MOTOR",
+                "motor_id": 3,
+                "motor_type": "P110_30",
+                "motor_version": "2.5.6",
+                "limits": [
+                  0.0,
+                  2.618
+                ],
+                "direction": 1,
+                "offset": 0.0,
+                "motor_max_current": 200.0,
+                "motor_max_velocity": 350.0,
+                "motor_limits": [
+                  false,
+                  [
+                    0.0,
+                    2.618
+                  ]
+                ]
+              },
+              {
+                "id": 4,
+                "enable": true,
+                "type": "ROTARY_MOTOR",
+                "motor_id": 4,
+                "motor_type": "P60_30",
+                "motor_version": "9.5.6",
+                "limits": [
+                  -3.14,
+                  3.14
+                ],
+                "direction": 1,
+                "offset": -0.5235,
+                "motor_max_current": 21.0,
+                "motor_max_velocity": 350.0,
+                "motor_limits": [
+                  false,
+                  [
+                    -1.309,
+                    0.524
+                  ]
+                ]
+              },
+              {
+                "id": 5,
+                "enable": true,
+                "type": "ROTARY_MOTOR",
+                "motor_id": 5,
+                "motor_type": "P60_30",
+                "motor_version": "9.5.6",
+                "limits": [
+                  -3.14,
+                  3.14
+                ],
+                "direction": 1,
+                "offset": 0.5235,
+                "motor_max_current": 21.0,
+                "motor_max_velocity": 350.0,
+                "motor_limits": [
+                  false,
+                  [
+                    -0.349,
+                    0.349
+                  ]
+                ]
+              }
+            ]
+          },
+          {
+            "type": "LEG_FT_R",
+            "enable": false,
+            "joints": [
+              {
+                "id": 0,
+                "enable": true,
+                "type": "FT_MOTOR",
+                "motor_id": 0,
+                "motor_type": "",
+                "motor_version": ""
+              }
+            ]
+          },
+          {
+            "type": "WAIST",
+            "enable": true,
+            "joints": [
+              {
+                "id": 0,
+                "enable": true,
+                "type": "ROTARY_MOTOR",
+                "motor_id": 0,
+                "motor_type": "H60_100",
+                "motor_version": "0.5.6",
+                "limits": [
+                  -1.571,
+                  1.571
+                ],
+                "direction": 1,
+                "offset": -1.57,
+                "motor_max_current": 13.0,
+                "motor_max_velocity": 350.0,
+                "motor_limits": [
+                  false,
+                  [
+                    -1.571,
+                    1.571
+                  ]
+                ]
+              },
+              {
+                "id": 1,
+                "enable": true,
+                "type": "ROTARY_MOTOR",
+                "motor_id": 1,
+                "motor_type": "H60_100",
+                "motor_version": "0.5.6",
+                "limits": [
+                  -0.349,
+                  0.349
+                ],
+                "direction": -1,
+                "offset": 0.368,
+                "motor_max_current": 13.0,
+                "motor_max_velocity": 350.0,
+                "motor_limits": [
+                  false,
+                  [
+                    -0.349,
+                    0.349
+                  ]
+                ]
+              },
+              {
+                "id": 2,
+                "enable": true,
+                "type": "ROTARY_MOTOR",
+                "motor_id": 2,
+                "motor_type": "H60_100",
+                "motor_version": "0.5.6",
+                "limits": [
+                  -0.349,
+                  0.349
+                ],
+                "direction": 1,
+                "offset": 0.368,
+                "motor_max_current": 13.0,
+                "motor_max_velocity": 350.0,
+                "motor_limits": [
+                  false,
+                  [
+                    -0.349,
+                    0.349
+                  ]
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": 1,
+        "type": "EcatCommunicator",
+        "enable": true,
+        "use_hub": true,
+        "components": [
+          {
+            "type": "ARM_L",
+            "enable": true,
+            "joints": [
+              {
+                "id": 0,
+                "enable": true,
+                "type": "ROTARY_MOTOR",
+                "motor_id": 0,
+                "motor_type": "H70_100",
+                "motor_version": "0.5.6",
+                "limits": [
+                  -2.619,
+                  2.619
+                ],
+                "direction": 1,
+                "offset": 0.0,
+                "motor_max_current": 18.5,
+                "motor_max_velocity": 350.0,
+                "motor_limits": [
+                  false,
+                  [
+                    -2.759,
+                    2.759
+                  ]
+                ]
+              },
+              {
+                "id": 1,
+                "enable": true,
+                "type": "ROTARY_MOTOR",
+                "motor_id": 1,
+                "motor_type": "H70_100",
+                "motor_version": "0.5.6",
+                "limits": [
+                  -0.122,
+                  2.739
+                ],
+                "direction": -1,
+                "offset": 0.0,
+                "motor_max_current": 18.5,
+                "motor_max_velocity": 350.0,
+                "motor_limits": [
+                  false,
+                  [
+                    -0.122,
+                    2.739
+                  ]
+                ]
+              },
+              {
+                "id": 2,
+                "enable": true,
+                "type": "ROTARY_MOTOR",
+                "motor_id": 2,
+                "motor_type": "H60_100",
+                "motor_version": "0.5.6",
+                "limits": [
+                  -2.478,
+                  2.478
+                ],
+                "direction": -1,
+                "offset": 0.0,
+                "motor_max_current": 13.0,
+                "motor_max_velocity": 350.0,
+                "motor_limits": [
+                  false,
+                  [
+                    -2.618,
+                    2.618
+                  ]
+                ]
+              },
+              {
+                "id": 3,
+                "enable": true,
+                "type": "ROTARY_MOTOR",
+                "motor_id": 3,
+                "motor_type": "H60_100",
+                "motor_version": "0.5.6",
+                "limits": [
+                  -2.079,
+                  0.035
+                ],
+                "direction": -1,
+                "offset": 0.0,
+                "motor_max_current": 13.0,
+                "motor_max_velocity": 350.0,
+                "motor_limits": [
+                  false,
+                  [
+                    -0.175,
+                    2.219
+                  ]
+                ]
+              },
+              {
+                "id": 4,
+                "enable": true,
+                "type": "ROTARY_MOTOR",
+                "motor_id": 4,
+                "motor_type": "H60_100",
+                "motor_version": "0.5.6",
+                "limits": [
+                  -2.774,
+                  2.774
+                ],
+                "direction": -1,
+                "offset": 0.0,
+                "motor_max_current": 13.0,
+                "motor_max_velocity": 350.0,
+                "motor_limits": [
+                  false,
+                  [
+                    -2.914,
+                    2.914
+                  ]
+                ]
+              },
+              {
+                "id": 5,
+                "enable": true,
+                "type": "LINEAR_MOTOR",
+                "motor_id": 5,
+                "motor_type": "HAN_PRJ-",
+                "motor_version": "1.1.6",
+                "limits": [
+                  -100.0,
+                  0.0
+                ],
+                "direction": 1,
+                "offset": 0.0,
+                "motor_max_current": 0.0,
+                "motor_max_velocity": 0.0,
+                "motor_limits": [
+                  false,
+                  [
+                    0.0,
+                    0.0
+                  ]
+                ]
+              },
+              {
+                "id": 6,
+                "enable": true,
+                "type": "LINEAR_MOTOR",
+                "motor_id": 6,
+                "motor_type": "HAN_PRJ-",
+                "motor_version": "1.1.6",
+                "limits": [
+                  -100.0,
+                  0.0
+                ],
+                "direction": 1,
+                "offset": 0.0,
+                "motor_max_current": 0.0,
+                "motor_max_velocity": 0.0,
+                "motor_limits": [
+                  false,
+                  [
+                    0.0,
+                    0.0
+                  ]
+                ]
+              }
+            ]
+          },
+          {
+            "type": "GRIPPER_L",
+            "enable": true,
+            "joints": [
+              {
+                "id": 0,
+                "enable": true,
+                "type": "GRIPPER_MOTOR",
+                "motor_id": 0,
+                "motor_type": "HAN_PRJ-",
+                "motor_version": "1.1.6",
+                "finger_max_current": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              }
+            ]
+          },
+          {
+            "type": "ARM_FT_L",
+            "enable": false,
+            "joints": [
+              {
+                "id": 0,
+                "enable": true,
+                "type": "FT_MOTOR",
+                "motor_id": 0,
+                "motor_type": "",
+                "motor_version": ""
+              }
+            ]
+          },
+          {
+            "type": "ARM_R",
+            "enable": true,
+            "joints": [
+              {
+                "id": 0,
+                "enable": true,
+                "type": "ROTARY_MOTOR",
+                "motor_id": 0,
+                "motor_type": "H70_100",
+                "motor_version": "0.5.6",
+                "limits": [
+                  -2.619,
+                  2.619
+                ],
+                "direction": -1,
+                "offset": 0.0,
+                "motor_max_current": 18.5,
+                "motor_max_velocity": 350.0,
+                "motor_limits": [
+                  false,
+                  [
+                    -2.759,
+                    2.759
+                  ]
+                ]
+              },
+              {
+                "id": 1,
+                "enable": true,
+                "type": "ROTARY_MOTOR",
+                "motor_id": 1,
+                "motor_type": "H70_100",
+                "motor_version": "0.5.6",
+                "limits": [
+                  -2.739,
+                  0.122
+                ],
+                "direction": 1,
+                "offset": 0.0,
+                "motor_max_current": 18.5,
+                "motor_max_velocity": 350.0,
+                "motor_limits": [
+                  false,
+                  [
+                    -0.262,
+                    2.879
+                  ]
+                ]
+              },
+              {
+                "id": 2,
+                "enable": true,
+                "type": "ROTARY_MOTOR",
+                "motor_id": 2,
+                "motor_type": "H60_100",
+                "motor_version": "0.5.6",
+                "limits": [
+                  -2.478,
+                  2.478
+                ],
+                "direction": -1,
+                "offset": 0.0,
+                "motor_max_current": 13.0,
+                "motor_max_velocity": 350.0,
+                "motor_limits": [
+                  false,
+                  [
+                    -2.618,
+                    2.618
+                  ]
+                ]
+              },
+              {
+                "id": 3,
+                "enable": true,
+                "type": "ROTARY_MOTOR",
+                "motor_id": 3,
+                "motor_type": "H60_100",
+                "motor_version": "0.5.6",
+                "limits": [
+                  -0.035,
+                  2.079
+                ],
+                "direction": 1,
+                "offset": 0.0,
+                "motor_max_current": 13.0,
+                "motor_max_velocity": 350.0,
+                "motor_limits": [
+                  false,
+                  [
+                    -0.175,
+                    2.219
+                  ]
+                ]
+              },
+              {
+                "id": 4,
+                "enable": true,
+                "type": "ROTARY_MOTOR",
+                "motor_id": 4,
+                "motor_type": "H60_100",
+                "motor_version": "0.5.6",
+                "limits": [
+                  -2.774,
+                  2.774
+                ],
+                "direction": -1,
+                "offset": 0.0,
+                "motor_max_current": 13.0,
+                "motor_max_velocity": 350.0,
+                "motor_limits": [
+                  false,
+                  [
+                    -2.914,
+                    2.914
+                  ]
+                ]
+              },
+              {
+                "id": 5,
+                "enable": true,
+                "type": "LINEAR_MOTOR",
+                "motor_id": 5,
+                "motor_type": "HAN_PRJ-",
+                "motor_version": "1.1.6",
+                "limits": [
+                  -100,
+                  0
+                ],
+                "direction": 1,
+                "offset": 0.0,
+                "motor_max_current": 0.0,
+                "motor_max_velocity": 0.0,
+                "motor_limits": [
+                  false,
+                  [
+                    0.0,
+                    0.0
+                  ]
+                ]
+              },
+              {
+                "id": 6,
+                "enable": true,
+                "type": "LINEAR_MOTOR",
+                "motor_id": 6,
+                "motor_type": "HAN_PRJ-",
+                "motor_version": "1.1.6",
+                "limits": [
+                  -100,
+                  0
+                ],
+                "direction": 1,
+                "offset": 0.0,
+                "motor_max_current": 0.0,
+                "motor_max_velocity": 0.0,
+                "motor_limits": [
+                  false,
+                  [
+                    0.0,
+                    0.0
+                  ]
+                ]
+              }
+            ]
+          },
+          {
+            "type": "GRIPPER_R",
+            "enable": true,
+            "joints": [
+              {
+                "id": 0,
+                "enable": true,
+                "type": "GRIPPER_MOTOR",
+                "motor_id": 0,
+                "motor_type": "HAN_PRJ-",
+                "motor_version": "1.1.6",
+                "finger_max_current": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              }
+            ]
+          },
+          {
+            "type": "ARM_FT_R",
+            "enable": false,
+            "joints": [
+              {
+                "id": 0,
+                "enable": true,
+                "type": "FT_MOTOR",
+                "motor_id": 0,
+                "motor_type": "",
+                "motor_version": ""
+              }
+            ]
+          },
+          {
+            "type": "HEAD",
+            "enable": true,
+            "joints": [
+              {
+                "id": 0,
+                "enable": true,
+                "type": "ROTARY_MOTOR",
+                "motor_id": 0,
+                "motor_type": "P60_5",
+                "motor_version": "8.5.6",
+                "limits": [
+                  -1.047,
+                  1.047
+                ],
+                "direction": -1,
+                "offset": -1.047,
+                "motor_max_current": 21.0,
+                "motor_max_velocity": 350.0,
+                "motor_limits": [
+                  false,
+                  [
+                    -1.047,
+                    1.047
+                  ]
+                ]
+              },
+              {
+                "id": 1,
+                "enable": true,
+                "type": "ROTARY_MOTOR",
+                "motor_id": 1,
+                "motor_type": "P60_5",
+                "motor_version": "8.5.6",
+                "limits": [
+                  -0.349,
+                  0.349
+                ],
+                "direction": -1,
+                "offset": 0.349,
+                "motor_max_current": 21.0,
+                "motor_max_velocity": 350.0,
+                "motor_limits": [
+                  false,
+                  [
+                    -0.349,
+                    0.349
+                  ]
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "type": "UartCommunicator",
+        "enable": true,
+        "device": "ttyS8",
+        "components": [
+          {
+            "type": "PWR",
+            "enable": true,
+            "joints": [
+              {
+                "id": 0,
+                "enable": true,
+                "type": "PWR_MOTOR",
+                "motor_id": 0,
+                "motor_type": "PWR_MOTOR",
+                "motor_version": "2.0.1"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "cameras": [
+    {
+      "type": "realsense",
+      "name": "Intel RealSense D405",
+      "serial_number": "230322272825",
+      "firmware_version": "5.16.0.1",
+      "usb_type": "3.2",
+      "device_index": 0,
+      "hand_position": "right_hand",
+      "color_intrinsics": {
+        "width": 1280,
+        "height": 720,
+        "fx": 652.080810546875,
+        "fy": 651.5929565429688,
+        "ppx": 635.9013061523438,
+        "ppy": 347.87213134765625,
+        "distortion_model": "distortion.inverse_brown_conrady",
+        "distortion_coeffs": {
+          "k1": -0.053935691714286804,
+          "k2": 0.06230052560567856,
+          "p1": -0.0007362340111285448,
+          "p2": 0.0006517856381833553,
+          "k3": -0.020767472684383392
+        }
+      },
+      "depth_intrinsics": {
+        "width": 1280,
+        "height": 720,
+        "fx": 653.91162109375,
+        "fy": 653.91162109375,
+        "ppx": 628.424560546875,
+        "ppy": 351.252685546875,
+        "distortion_model": "distortion.brown_conrady",
+        "distortion_coeffs": {
+          "k1": 0.0,
+          "k2": 0.0,
+          "p1": 0.0,
+          "p2": 0.0,
+          "k3": 0.0
+        }
+      }
+    },
+    {
+      "type": "realsense",
+      "name": "Intel RealSense D405",
+      "serial_number": "230322276926",
+      "firmware_version": "5.16.0.1",
+      "usb_type": "3.2",
+      "device_index": 1,
+      "hand_position": "left_hand",
+      "color_intrinsics": {
+        "width": 1280,
+        "height": 720,
+        "fx": 652.5184326171875,
+        "fy": 651.9932861328125,
+        "ppx": 635.6773681640625,
+        "ppy": 351.8387756347656,
+        "distortion_model": "distortion.inverse_brown_conrady",
+        "distortion_coeffs": {
+          "k1": -0.05291277542710304,
+          "k2": 0.06008170545101166,
+          "p1": -0.0007399566238746047,
+          "p2": 0.0005790742579847574,
+          "k3": -0.0200832337141037
+        }
+      },
+      "depth_intrinsics": {
+        "width": 1280,
+        "height": 720,
+        "fx": 648.1812133789062,
+        "fy": 648.1812133789062,
+        "ppx": 633.269287109375,
+        "ppy": 352.82171630859375,
+        "distortion_model": "distortion.brown_conrady",
+        "distortion_coeffs": {
+          "k1": 0.0,
+          "k2": 0.0,
+          "p1": 0.0,
+          "p2": 0.0,
+          "k3": 0.0
+        }
+      }
+    }
+  ]
+}

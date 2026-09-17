@@ -1,0 +1,44 @@
+struct arm_cmd_struct
+{
+    int32_t  isUsed[14];
+    int32_t  control_mode[14];                                     //control mode for fsm control
+    int32_t  trajectoryLength;                                  //trajectory length
+    int32_t  motionType;                                       //motion type
+    float    jointPosVec[trajectoryLength][14];                 //trajectory -- joint pos     (14 actuators)
+    float    jointSpeedVec[trajectoryLength][14];               //trajectory -- joint speed   (14 actuators)
+    float    jointCurrentVec[trajectoryLength][14];             //trajectory -- joint current (14 actuators)
+}
+
+//Unit   N , N*m  , m  , m/s , rad , rad/s , A
+
+//arm motionType commit
+//motionType = 0         disable arm(stop)
+//motionType = 1         go home
+//motionType = 2         clear error code
+//motionType = 3         pos control mode
+//motionType = 4         speed control mode
+//motionType = 5         current control mode
+
+
+struct hand_cmd_struct
+{
+    int32_t  isUsed[12];
+    int32_t  control_mode;                                     //control mode for fsm control
+    int32_t  trajectoryLength;                                 //trajectory length
+    int32_t  motionType;                                       //motion type
+    float    jointPosVec[12];                                   //trajectory -- finger joint pos       (6 actuators)
+    float    jointSpeedVec[12];                                 //trajectory -- finger joint speed     (6 actuators)
+    float    forceMaxValue[12];                                 //force max value                      (8 actuators)
+    int8_t   gestureSequence;                                  //gesture sequence
+}
+
+//hand motionType commit
+//motionType = 0         run gesture sequence
+//motionType = 1         calibrate force sensor
+//motionType = 2         go home
+//motionType = 3         clear error code
+//motionType = 4         set force max value
+//motionType = 5         set finger speed and wrist run time
+//motionType = 6         set jointPos
+
+//control_mode   //defined by custom module

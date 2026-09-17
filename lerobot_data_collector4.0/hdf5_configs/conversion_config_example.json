@@ -1,0 +1,9 @@
+{
+  "output_root_path": "/home/wlf/data/suzhikeshucai/task0823",
+  "main_scene_name": "Logistics",
+  "sub_scene_name": "Materialtransfer",
+  "action_name": "Distribute_Parcels_To_Corresponding_Regions",
+  "use_copasi_structure": true,
+  "description": "HDF5转换配置文件示例"
+}
+

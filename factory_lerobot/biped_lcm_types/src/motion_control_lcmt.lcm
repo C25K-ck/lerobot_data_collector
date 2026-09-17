@@ -1,0 +1,34 @@
+// topic: lcm_request
+// port: 7671
+struct lcm_command_lcmt {
+  int8_t robot_fsm; //choose state machine
+
+  float x_vel_des, y_vel_des, yaw_vel_des; // 10-39
+  float rpy_des[3];   // 10-39
+  float body_height;  // 10-39
+  float step_height;  // 10-39
+
+  float leg_des[4][3];          // 70
+}
+
+// topic: navi_ctrl_command
+// port: 7671
+struct navi_ctrl_command_lcmt {
+  // int8_t foot_traj_point_num;
+  float foot_traj[4][2][3]; // x y z
+  float com_traj[10][12];   // x y z r p y vx vy vz wx wy wz
+  float time_interval;      // 0.1s
+  // int8_t contact_state[4];  // 1: stance  0: swing
+  int8_t update_flag;
+  int64_t timestamp;
+  float p[3];
+}
+
+// topic: walk_extra_command
+// port: 7671
+struct walk_extra_command_lcmt {
+  int8_t response_id;           // 39
+  double foot_pos_final[12];    // 39
+  int8_t swing_type;            // 39
+  double foot_pos_traj[12][10]; // 39
+}

@@ -1,0 +1,5 @@
+struct testing_tools_package {
+    int64_t timestamp;
+    string command;
+    string message;
+}

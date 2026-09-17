@@ -1,0 +1,30 @@
+struct howbc_accuracy_lcmt
+{
+    float eom_step[6];
+    float eeNoMotion_step[12];
+    float eeWrenchIneq_step[24];
+    float com_step[6];
+    float body_step[6];
+    float swingLeg_step[12];
+    float hand_step[12];
+    float eeWrenchReg_step[12];
+    float ddqRef_step[36];
+
+    float eom_all[6];
+    float eeNoMotion_all[12];
+    float eeWrenchIneq_all[24];
+    float com_all[6];
+    float body_all[6];
+    float swingLeg_all[12];
+    float hand_all[12];
+    float eeWrenchReg_all[12];
+    float ddqRef_all[36];
+
+    float tau_ff_raw[30];
+    float tau_ff_limit[30];
+    float tau_base[6];
+
+    float ddq_wrench0[48];
+    float ddq_wrench1[48];
+    float ddq_wrench2[48];
+}

@@ -1,0 +1,12 @@
+struct honsp_accuracy_lcmt
+{
+    float nsp_p[30];
+    float nsp_v[30];
+    float nsp_a[30];
+
+    float nsp_p_all[30];
+    float nsp_v_all[30];
+    float nsp_a_all[30];
+
+    float nsp_ddq[30];
+}

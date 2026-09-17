@@ -1,0 +1,10 @@
+struct doll_motor_debug_data_struct
+{
+    int32_t  n_dof; //number of degrees
+    float    motor_pos_now[n_dof];
+    float    motor_vel_now[n_dof];
+    float    motor_current_now[n_dof];
+    float    joint_pos_now[n_dof];
+    float    joint_vel_now[n_dof];
+    float    joint_current_now[n_dof];
+}

@@ -1,0 +1,5 @@
+struct lowlevel_command_struct {
+  float x_vel_des, y_vel_des, yaw_vel_des, z_des;
+  float stop;
+  int8_t is_stair;
+}

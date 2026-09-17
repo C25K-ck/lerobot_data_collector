@@ -1,0 +1,8 @@
+struct visual_target_lcmt
+{
+    float target_pos[3];  // x y z
+    float target_ori[4];  // w x y z
+    
+    float tool_pos[3];  // x y z
+    float tool_ori[4];  // w x y z
+}

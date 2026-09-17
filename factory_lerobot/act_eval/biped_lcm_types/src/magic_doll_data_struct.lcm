@@ -1,0 +1,7 @@
+struct magic_doll_data_struct
+{
+    int32_t  n_dof; //number of degrees
+    float    pos_now[n_dof];
+    float    vel_now[n_dof];
+    float    current_now[n_dof];
+}

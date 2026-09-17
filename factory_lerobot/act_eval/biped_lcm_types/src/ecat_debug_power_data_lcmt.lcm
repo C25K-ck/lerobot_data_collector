@@ -1,0 +1,9 @@
+struct ecat_debug_power_data_lcmt {
+    int8_t emy_stop;
+    int32_t voltage;   // 电池电压
+    int32_t current;    // 电池电流
+    int8_t temperature; // 电池温度
+    int8_t charge;     // 电池电量
+    int8_t health;     // 电池健康
+    int16_t cycle;     // 电池循环
+}

@@ -1,0 +1,8 @@
+# python generated files
+__pycache__/
+#*.py[cod]
+model_eval/__pycache__
+sim_issacgym/sim_issacgym/__pycache__
+.idea/*
+.vscode
+

@@ -1,0 +1,14 @@
+struct howbc_time_lcmt
+{
+    float t_total;
+    float t_obj;
+    float t_task_cons;
+    float t_final_verify;
+    float t_torque;
+    float t_pub;
+
+    float prior_num;
+    float prior_task[10];
+
+    int32_t contact_count;
+}

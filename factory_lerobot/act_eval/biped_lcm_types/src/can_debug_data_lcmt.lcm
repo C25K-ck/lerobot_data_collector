@@ -1,0 +1,10 @@
+struct can_debug_data_lcmt {
+    int32_t error_code[14];
+    int32_t raw_actual_position[14];
+    int16_t raw_actual_velocity[14];
+    int16_t raw_actual_current[14];
+
+    float motor_curPos[14];
+    float motor_curVel[14];
+    float motor_curCurrent[14];
+}

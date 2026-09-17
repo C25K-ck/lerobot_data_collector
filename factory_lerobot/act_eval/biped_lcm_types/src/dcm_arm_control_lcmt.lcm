@@ -1,0 +1,18 @@
+struct dcm_arm_control_lcmt {
+    float p_WArmEndL_ref[3];
+    float p_WArmEndL_act[3];
+    float p_WArmEndR_ref[3];
+    float p_WArmEndR_act[3];
+    float v_WArmEndL_ref[3];
+    float v_WArmEndL_act[3];
+    float v_WArmEndR_ref[3];
+    float v_WArmEndR_act[3];
+    float rpy_WArmEndL_ref[3];
+    float rpy_WArmEndL_act[3];
+    float rpy_WArmEndR_ref[3];
+    float rpy_WArmEndR_act[3];
+    float w_WArmEndL_ref[3];
+    float w_WArmEndL_act[3];
+    float w_WArmEndR_ref[3];
+    float w_WArmEndR_act[3];
+}

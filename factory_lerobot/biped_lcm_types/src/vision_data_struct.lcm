@@ -1,0 +1,6 @@
+struct vision_data_struct
+{
+    int32_t current_status;         //current_status: (0 : IDLE ; 1 : SUCCESS ; 2 : FAILED ; 3 : RUNNING)
+    int32_t current_err_code;
+}
+

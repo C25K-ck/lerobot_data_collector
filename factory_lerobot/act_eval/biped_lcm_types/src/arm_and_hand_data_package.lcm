@@ -1,0 +1,10 @@
+struct arm_and_hand_data_package
+{
+    int32_t    isUsed;                              //current joint used status     (1 actuators)
+    int32_t    curStatusVec[26];                    //current run mode              (14 actuators + 12 finger)
+    int32_t    curErrCodeVec[26];                   //current joint error code      (14 actuators + 12 finger)
+    float      curJointPosVec[26];                  //current joint pos             (14 actuators + 12 finger)
+    float      curSpeedVec[26];                     //current joint speed           (14 actuators + 12 finger)
+    float      curCurrentVec[26];                   //current joint current/figure force  (14 actuators + 12 finger)
+    float      endEffectorXYZRPY[24];               //real left arm xyzrpy / right arm xyzrpy + cmd left arm xyzrpy / right arm xyzrpy
+}

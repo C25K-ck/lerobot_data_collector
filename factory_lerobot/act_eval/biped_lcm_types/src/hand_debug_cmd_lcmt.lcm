@@ -1,0 +1,3 @@
+struct hand_debug_cmd_lcmt {
+    float joint_tarPos[12];
+}

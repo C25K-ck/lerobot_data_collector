@@ -1,0 +1,18 @@
+struct robot_power_io_lcmt
+{
+    int32_t voltage1;
+    int32_t current1;
+    int8_t temperature1;
+    int8_t charge1;
+    int8_t health1;
+    int16_t cycle1;
+
+    int32_t voltage2;
+    int32_t current2;
+    int8_t temperature2;
+    int8_t charge2;
+    int8_t health2;
+    int16_t cycle2;
+
+    int8_t emy_stop;
+}

@@ -1,0 +1,64 @@
+{
+  "robots": [
+    {
+      "name": "12345",
+      "sn": "12345",
+      "model": "12345",
+      "is_biped": false
+    },
+    {
+      "name": "1234",
+      "sn": "1234",
+      "model": "1234",
+      "is_biped": false
+    },
+    {
+      "name": "123",
+      "sn": "123",
+      "model": "123",
+      "is_biped": false
+    },
+    {
+      "name": "水星",
+      "sn": "SZK2507022536",
+      "model": "X1-3",
+      "is_biped": false
+    },
+    {
+      "name": "宇树G1",
+      "sn": "SZK2507022543",
+      "model": "G1",
+      "is_biped": true
+    },
+    {
+      "name": "四足机器人",
+      "sn": "SZK2507022544",
+      "model": "Lite3 专业版",
+      "is_biped": false
+    },
+    {
+      "name": "魔法原子",
+      "sn": "2303222761345",
+      "model": "Gen1",
+      "is_biped": true
+    },
+    {
+      "name": "水星",
+      "sn": "SZK2507022538",
+      "model": "X1-3",
+      "is_biped": false
+    },
+    {
+      "name": "宇树G1",
+      "sn": "SZK2507022537",
+      "model": "G1",
+      "is_biped": true
+    },
+    {
+      "name": "四足机器人",
+      "sn": "SZK2507022500",
+      "model": "Lite3 专业版",
+      "is_biped": false
+    }
+  ]
+}

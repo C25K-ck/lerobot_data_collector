@@ -1,0 +1,4 @@
+struct visual_servo_cmd_lcmt
+{
+    int32_t  control_mode; // 0 for stop visual servo mode, 1 for start
+}

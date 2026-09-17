@@ -1,0 +1,8 @@
+struct dcm_com_planner_lcmt {
+    float xi_ref[3];
+    float xi_dot_ref[3];
+    float x_ref[3];
+    float xdot_ref[3];
+    float r_vrp_traj[3];
+    float r_vrp_ref[3];
+}

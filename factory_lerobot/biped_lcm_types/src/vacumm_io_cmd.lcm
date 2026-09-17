@@ -1,0 +1,4 @@
+struct vacumm_io_cmd
+{
+    int32_t  power_on; // 1 is on, 0 is off
+}

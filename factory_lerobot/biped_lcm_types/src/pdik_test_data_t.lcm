@@ -1,0 +1,46 @@
+struct pdik_test_data_t 
+{
+    int32_t contact_est[4];
+
+    float body_ori_cmd[4];
+    float body_pos_cmd[3];
+    float body_vel_cmd[3];
+    float body_ang_vel_cmd[3];
+
+    float body_pos[3];
+    float body_vel[3];
+
+    float body_ori[4];
+    float body_ang_vel[3];
+
+    float foot_pos_cmd[12];
+    float foot_vel_cmd[12];
+    float foot_acc_cmd[12];
+    float foot_acc_numeric[12];
+    
+    float foot_pos[12];
+    float foot_vel[12];
+
+    float foot_local_pos[12];
+    float foot_local_vel[12];
+
+    float jpos_cmd[12];
+    float jvel_cmd[12];
+    float jacc_cmd[12];
+
+    float jpos[12];
+    float jvel[12];
+
+    float L_stance_foot[3];
+    float single_L_x[12];
+    float single_L_y[12];
+    float single_L_G_x[12];
+    float single_L_G_y[12];
+    float hr_h0[10];
+    float det_q[12];
+    float l;
+    float pseudo_com_vx;
+    float dx0_next;
+    float dxf_next_goal;
+    float one_step_max_vel_gain;
+}

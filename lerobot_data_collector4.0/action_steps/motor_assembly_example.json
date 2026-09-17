@@ -1,0 +1,113 @@
+[
+  {
+    "episode_id": "0305d4c2-5310-42a7-86d5-9be8c1f4be5b",
+    "scene_name": "factory",
+    "sub_scene_name": "MotorAssembly",
+    "init_scene_text": "工厂桌面放置电机泡沫方盒，方盒上有多个凹槽用于放置电机",
+    "english_init_scene_text": "Factory desktop with motor foam box containing multiple slots for motor placement",
+    "task_name": "将电机抓取并放置到指定凹槽",
+    "english_task_name": "Pick motors and place them into designated slots",
+    "data_type": "常规",
+    "episode_status": "approved",
+    "data_gen_mode": "real_machine",
+    "sn_code": "T008",
+    "sn_name": "魔法原子",
+    "duration": 57.03,
+    "label_info": {
+      "action_config": [
+        {
+          "start_frame": 0,
+          "end_frame": 218,
+          "timestamp_utc": "2025-10-21T22:31:09.282489+00:00",
+          "action_text": "数据正在采集中",
+          "skill": "Pick",
+          "is_mistake": false,
+          "english_action_text": "The right arm picks the motor"
+        },
+        {
+          "start_frame": 218,
+          "end_frame": 463,
+          "timestamp_utc": "2025-10-21T22:31:16.549236+00:00",
+          "action_text": "数据正在采集中",
+          "skill": "Place",
+          "is_mistake": false,
+          "english_action_text": "The right arm places the motor into slot 1-5"
+        },
+        {
+          "start_frame": 463,
+          "end_frame": 629,
+          "timestamp_utc": "2025-10-21T22:31:24.715936+00:00",
+          "action_text": " 数据正在采集中",
+          "skill": "Pick",
+          "is_mistake": false,
+          "english_action_text": "The left arm picks the motor"
+        },
+        {
+          "start_frame": 629,
+          "end_frame": 753,
+          "timestamp_utc": "2025-10-21T22:31:30.249295+00:00",
+          "action_text": "数据正在采集中",
+          "skill": "Place",
+          "is_mistake": false,
+          "english_action_text": "The left arm places the motor into slot 1-1"
+        },
+        {
+          "start_frame": 753,
+          "end_frame": 877,
+          "timestamp_utc": "2025-10-21T22:31:34.382648+00:00",
+          "action_text": "数据正在采集中",
+          "skill": "Pick",
+          "is_mistake": false,
+          "english_action_text": "The right arm picks the motor"
+        },
+        {
+          "start_frame": 877,
+          "end_frame": 1019,
+          "timestamp_utc": "2025-10-21T22:31:38.516003+00:00",
+          "action_text": "数据正在采集中",
+          "skill": "Place",
+          "is_mistake": false,
+          "english_action_text": "The right arm places the motor into slot 1-4"
+        },
+        {
+          "start_frame": 1019,
+          "end_frame": 1211,
+          "timestamp_utc": "2025-10-21T22:31:43.249358+00:00",
+          "action_text": "数据正在采集中",
+          "skill": "Pick",
+          "is_mistake": false,
+          "english_action_text": "The left arm picks the motor"
+        },
+        {
+          "start_frame": 1211,
+          "end_frame": 1345,
+          "timestamp_utc": "2025-10-21T22:31:49.649379+00:00",
+          "action_text": "数据正在采集中",
+          "skill": "Place",
+          "is_mistake": false,
+          "english_action_text": "The left arm places the motor into slot 1-2"
+        },
+        {
+          "start_frame": 1345,
+          "end_frame": 1580,
+          "timestamp_utc": "2025-10-21T22:31:54.116135+00:00",
+          "action_text": "数据正在采集中",
+          "skill": "Pick",
+          "is_mistake": false,
+          "english_action_text": "The right arm picks the motor"
+        },
+        {
+          "start_frame": 1580,
+          "end_frame": 1711,
+          "timestamp_utc": "2025-10-21T22:32:01.949491+00:00",
+          "action_text": "数据正在采集中",
+          "skill": "Place",
+          "is_mistake": false,
+          "english_action_text": "The right arm places the motor into slot 1-3"
+        }
+      ],
+      "key_frame": []
+    }
+  }
+]
+

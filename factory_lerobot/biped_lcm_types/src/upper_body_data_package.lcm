@@ -1,0 +1,12 @@
+struct upper_body_data_package
+{
+    int32_t    isUsed;                              //current joint used status     (1 actuators)
+    int32_t    curStatusVec[30];                    //current run mode              (14 actuators + 12 finger + 2 waist + 2 head yaw pitch)
+    int32_t    curErrCodeVec[30];                   //current joint error code      (14 actuators + 12 finger + 2 waist + 2 head yaw pitch)
+    float      curJointPosVec[30];                  //current joint pos             (14 actuators + 12 finger + 2 waist + 2 head yaw pitch)
+    float      curSpeedVec[30];                     //current joint speed           (14 actuators + 12 finger + 2 waist + 2 head yaw pitch)
+    float      curCurrentVec[30];                   //current joint current/figure force  (14 actuators + 12 finger + 2 waist + 2 head yaw pitch)
+    float      curTorqueVec[30];                    //current joint torque          (14 actuators + 12 finger + 2 waist + 2 head yaw pitch)
+    float      endEffectorXYZRPY[24];               //real left arm xyzrpy / right arm xyzrpy + cmd left arm xyzrpy / right arm xyzrpy
+    float      estimated_yaw;                       //estimated body yaw
+}

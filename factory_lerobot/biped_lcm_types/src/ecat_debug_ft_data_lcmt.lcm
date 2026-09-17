@@ -1,0 +1,9 @@
+struct ecat_debug_ft_data_lcmt {
+    //send to motion control module(after change)
+    double  original_Fx[1];
+    double  original_Fy[1];
+    double  original_Fz[1];
+    double  original_Mx[1];
+    double  original_My[1];
+    double  original_Mz[1];
+}

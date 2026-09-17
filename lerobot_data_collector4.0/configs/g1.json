@@ -1,0 +1,53 @@
+{
+  "repo_id": "g1_demo",
+  "fps": 30,
+  "hand_dim": 14,
+  "leg_dim": 15,
+  "lcm_enabled": false,
+  "dataset_root": "/home/dreame/data/hf_dataset",
+  "ros2": {
+    "enabled": true,
+    "topics": [
+      {
+        "topic": "/g1/hand_states",
+        "type": "JointState",
+        "target": "hand.state",
+        "field": "position"
+      },
+      {
+        "topic": "/g1/leg_states",
+        "type": "JointState",
+        "target": "leg.state",
+        "field": "position"
+      },
+      {
+        "topic": "/g1/hand_cmd",
+        "type": "Float32MultiArray",
+        "target": "hand.cmd"
+      },
+      {
+        "topic": "/g1/leg_cmd",
+        "type": "Float32MultiArray",
+        "target": "leg.cmd"
+      }
+    ]
+  },
+  "dataset_fields": {
+    "observation.hand.position": {
+      "source": "hand.state",
+      "dim": 14
+    },
+    "observation.leg.position": {
+      "source": "leg.state",
+      "dim": 15
+    },
+    "observation.hand.cmd": {
+      "source": "hand.cmd",
+      "dim": 8
+    },
+    "observation.leg.cmd": {
+      "source": "leg.cmd",
+      "dim": 12
+    }
+  }
+}

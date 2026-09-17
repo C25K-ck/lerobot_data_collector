@@ -1,0 +1,11 @@
+struct dcm_foothold_planner_lcmt {
+    float p_WLeftFoot_ref[3];
+    float p_WRightFoot_ref[3];
+    float v_WLeftFoot_ref[3];
+    float v_WRightFoot_ref[3];
+    float a_WLeftFoot_ref[3];
+    float a_WRightFoot_ref[3];
+    float r_cmp_ref[3];
+    float p_WStanceFoot_ref[3];
+    float foothold_adjustment[3];
+}

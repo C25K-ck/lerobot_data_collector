@@ -1,0 +1,25 @@
+{
+  "repo_id": "realman",
+  "fps": 30,
+  "hand_dim": 6,
+  "leg_dim": 0,
+  "lcm_enabled": false,
+  "dataset_root": "/home/dreame/data/hf_dataset",
+  "ros2": {
+    "enabled": true,
+    "topics": [
+      {
+        "topic": "/realman/current_state",
+        "type": "JointState",
+        "target": "realman.state",
+        "field": "position"
+      }
+    ]
+  },
+  "dataset_fields": {
+    "observation.hand.position": {
+      "source": "realman.state",
+      "dim": 6
+    }
+  }
+}

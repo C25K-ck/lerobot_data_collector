@@ -1,0 +1,3 @@
+struct dcm_gait_planner_lcmt {
+    float contact_state[2];
+}

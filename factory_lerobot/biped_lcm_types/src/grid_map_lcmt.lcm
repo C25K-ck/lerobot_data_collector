@@ -1,0 +1,6 @@
+// topic: "grid_map"
+// port : 7673
+// ttl  : 255
+struct grid_map_lcmt {
+   float height_elevation[315];
+}

@@ -1,0 +1,22 @@
+{
+  "repo_id": "generic_demo",
+  "fps": 30,
+  "hand_dim": 30,
+  "leg_dim": 12,
+  "lcm_enabled": true,
+  "task_description": "grip motor",
+  "pico_teleop_bridge": false,
+  "pico_only_collection": false,
+  "robot_prep_on_start": false,
+  "ros2": {
+    "enabled": true,
+    "sync_camera_enabled": true,
+    "topics": [
+      { "topic": "/act_qpos", "type": "Float32MultiArray", "target": "hands.action" },
+      { "topic": "/cmd_vel", "type": "Twist", "target": "cmd_vel" },
+      { "topic": "/squat_des", "type": "Float32MultiArray", "target": "squat_des" },
+      { "topic": "/task_mode", "type": "Int32", "target": "task_mode" },
+      { "topic": "/start_save_data", "type": "String", "target": "control" }
+    ]
+  }
+}

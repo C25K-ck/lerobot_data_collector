@@ -1,0 +1,34 @@
+# LeRobot 数据采集平台依赖
+
+# 核心依赖
+numpy>=1.20.0
+
+# ROS2支持（必须安装ROS2环境）
+# 注意：ROS2需要通过apt或其他包管理器安装，不能通过pip安装
+# 确保已安装：sudo apt install ros-humble-desktop 或类似版本
+
+# GUI依赖
+# PySide6 - Qt框架，提供更好的字体渲染引擎（抗锯齿、亚像素渲染）
+# 如果PySide6不可用，会自动回退到Tkinter（Python标准库）
+PySide6>=6.5.0
+
+# 数据转换依赖
+pandas>=1.3.0  # Parquet文件读取和处理
+h5py>=3.0.0  # HDF5文件写入
+pyarrow>=5.0.0  # Parquet文件读取引擎（推荐）
+fastparquet>=0.7.0  # Parquet文件读取引擎（备选）
+
+# 网络请求依赖
+requests>=2.28.0  # HTTP请求库，用于登录和API调用
+
+# 对象存储上传（MinIO / S3 兼容）
+minio>=7.2.0
+
+# 可选依赖
+# torch>=1.10.0  # 如果需要使用PyTorch相关功能
+
+# 注意：
+# 1. ROS2需要单独安装，请参考ROS2官方文档
+# 2. lerobot_factory 需要单独配置，请参考README.md
+# 3. LCM适配器是可选的，如果不需要可以忽略
+
